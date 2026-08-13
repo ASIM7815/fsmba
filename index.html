@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISL Engineering College - Exam Portal</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Page 1: Student Login -->
+    <div id="loginPage" class="page active">
+        <div class="header-title">
+            <h1>ISL ENGINEERING COLLEGE</h1>
+        </div>
+        <div class="container">
+            <div class="form-box">
+                <div class="input-group">
+                    <label for="studentRollNumber">Student Roll Number</label>
+                    <input type="text" id="studentRollNumber" placeholder="Enter your roll number">
+                </div>
+                <div class="input-group">
+                    <label for="uniqueCode">Unique Code</label>
+                    <input type="text" id="uniqueCode" placeholder="Enter your unique code">
+                </div>
+                <button class="btn btn-primary" onclick="proceedToInstructions()">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 2: Instructions -->
+    <div id="instructionsPage" class="page">
+        <div class="header-title">
+            <h1>ISL ENGINEERING COLLEGE</h1>
+        </div>
+        <div class="container">
+            <div class="instructions-box">
+                <h2>Exam Instructions</h2>
+                <div class="instructions-content">
+                    <ul>
+                        <li>You have <strong>30 minutes</strong> to complete this exam.</li>
+                        <li>Do not try to close the page. If you close the page, you may fail the exam.</li>
+                        <li>Please follow all rules and regulations of the exam.</li>
+                        <li>You can navigate between questions using Previous and Next buttons.</li>
+                        <li>The exam consists of 10 multiple-choice questions.</li>
+                        <li>Select one answer for each question.</li>
+                        <li>Your results will be shown immediately after completion.</li>
+                        <li>Once the timer ends, the exam will be automatically submitted.</li>
+                    </ul>
+                </div>
+                <button class="btn btn-success" onclick="startExam()">Start Exam</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 3: Exam Page -->
+    <div id="examPage" class="page">
+        <div class="header-title exam-header">
+            <h1>ISL ENGINEERING COLLEGE</h1>
+        </div>
+        <div class="exam-container">
+            <div class="exam-info">
+                <div class="student-info">
+                    <span id="displayStudentRollNumber"></span>
+                </div>
+                <div class="timer-container">
+                    <span class="timer-label">Time Remaining:</span>
+                    <span id="timer" class="timer">30:00</span>
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question-header">
+                    <span id="questionNumber">Question 1 of 10</span>
+                </div>
+                <div class="question-text" id="questionText"></div>
+                <div class="options-container" id="optionsContainer"></div>
+            </div>
+
+            <div class="navigation-buttons">
+                <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()" disabled>Previous</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">Next</button>
+                <button class="btn btn-success" id="submitBtn" onclick="submitExam()" style="display: none;">Submit Exam</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 4: Results -->
+    <div id="resultsPage" class="page">
+        <div class="header-title">
+            <h1>ISL ENGINEERING COLLEGE</h1>
+        </div>
+        <div class="container">
+            <div class="results-box">
+                <h2>Exam Results</h2>
+                <div class="result-content">
+                    <div class="result-item">
+                        <span class="result-label">Student Roll Number:</span>
+                        <span id="resultStudentRollNumber" class="result-value"></span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Total Questions:</span>
+                        <span id="totalQuestions" class="result-value">10</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Correct Answers:</span>
+                        <span id="correctAnswers" class="result-value"></span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Wrong Answers:</span>
+                        <span id="wrongAnswers" class="result-value"></span>
+                    </div>
+                    <div class="result-item score-item">
+                        <span class="result-label">Score:</span>
+                        <span id="score" class="result-value score"></span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Percentage:</span>
+                        <span id="percentage" class="result-value"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Modal for Submit Confirmation -->
+    <div id="submitModal" class="modal">
+        <div class="modal-content">
+            <h3>Confirm Submission</h3>
+            <p id="modalMessage">Are you sure you want to submit the exam?</p>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary modal-btn" onclick="closeSubmitModal()">Cancel</button>
+                <button class="btn btn-success modal-btn" onclick="confirmSubmit()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <h3>Error</h3>
+            <p id="errorMessage"></p>
+            <div class="modal-buttons">
+                <button class="btn btn-primary modal-btn" onclick="closeErrorModal()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Wait for supabase to load before loading other scripts
+        if (typeof supabase === 'undefined') {
+            console.error('Supabase failed to load');
+            alert('Failed to load required libraries. Please refresh the page or check your internet connection.');
+        }
+    </script>
+    <script src="supabase-config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

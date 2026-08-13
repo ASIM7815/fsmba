@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Supabase Connection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .test-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 5px;
+            border-left: 4px solid #3b82f6;
+        }
+        .success { border-left-color: #10b981; background: #f0fdf4; }
+        .error { border-left-color: #ef4444; background: #fef2f2; }
+    </style>
+</head>
+<body>
+    <div class="test-box">
+        <h1>Supabase Connection Test</h1>
+        <p>This page tests if Supabase is properly configured and accessible.</p>
+        
+        <button onclick="testConnection()">Test Connection</button>
+        <button onclick="testStudentsTable()">Test Students Table</button>
+        <button onclick="testValidation()">Test Validation</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://ncwugityxjyfpreccvsp.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5jd3VnaXR5eGp5ZnByZWNjdnNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2MzgwMDQsImV4cCI6MjEwMjIxNDAwNH0.7SqtNMBdXUgVy2hrOGmfknt8mViCAdfqZdh5bp-7HUs';
+
+        let supabaseClient;
+        
+        function showResult(message, isSuccess) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = isSuccess ? 'success' : 'error';
+            resultDiv.innerHTML = message;
+        }
+
+        async function testConnection() {
+            try {
+                // Check if supabase library loaded
+                if (typeof supabase === 'undefined') {
+                    showResult('❌ Supabase library failed to load from CDN', false);
+                    return;
+                }
+
+                // Initialize client
+                supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                
+                showResult('✅ Supabase library loaded successfully!<br>Client initialized.<br>URL: ' + SUPABASE_URL, true);
+            } catch (error) {
+                showResult('❌ Error: ' + error.message, false);
+            }
+        }
+
+        async function testStudentsTable() {
+            if (!supabaseClient) {
+                showResult('❌ Please test connection first', false);
+                return;
+            }
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('students')
+                    .select('*')
+                    .limit(5);
+
+                if (error) {
+                    showResult('❌ Error querying students table:<br>' + error.message + '<br><br>Make sure you ran CREATE_STUDENTS_TABLE.sql in Supabase SQL Editor!', false);
+                    return;
+                }
+
+                if (data && data.length > 0) {
+                    showResult('✅ Students table exists!<br>Found ' + data.length + ' records (showing first 5)<br><pre>' + JSON.stringify(data, null, 2) + '</pre>', true);
+                } else {
+                    showResult('⚠️ Students table exists but is empty.<br>Run CREATE_STUDENTS_TABLE.sql to insert data.', false);
+                }
+            } catch (error) {
+                showResult('❌ Exception: ' + error.message, false);
+            }
+        }
+
+        async function testValidation() {
+            if (!supabaseClient) {
+                showResult('❌ Please test connection first', false);
+                return;
+            }
+
+            const testRollNumber = '160525672063';
+            const testCode = 'fsmba2026';
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('students')
+                    .select('*')
+                    .eq('roll_number', testRollNumber)
+                    .eq('unique_code', testCode)
+                    .eq('is_active', true)
+                    .single();
+
+                if (error) {
+                    if (error.code === 'PGRST116') {
+                        showResult('❌ Validation test failed: Student not found.<br>Roll: ' + testRollNumber + '<br>Code: ' + testCode + '<br><br>Run CREATE_STUDENTS_TABLE.sql to insert test data.', false);
+                    } else {
+                        showResult('❌ Error: ' + error.message, false);
+                    }
+                    return;
+                }
+
+                showResult('✅ Validation successful!<br>Found student:<br><pre>' + JSON.stringify(data, null, 2) + '</pre>', true);
+            } catch (error) {
+                showResult('❌ Exception: ' + error.message, false);
+            }
+        }
+
+        // Auto-test on load
+        window.onload = function() {
+            testConnection();
+        };
+    </script>
+</body>
+</html>
