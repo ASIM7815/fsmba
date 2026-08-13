@@ -32,6 +32,34 @@ A secure online examination system for ISL Engineering College students with rea
 - **Responsive**: Works on desktop, tablet, and mobile devices
 - **Smooth Animations**: Modal popups with fade-in effects
 
+## 🚀 Deployment
+
+This project is ready to deploy on Vercel!
+
+### Quick Deploy to Vercel
+
+1. **Via GitHub** (Recommended):
+   - Go to [Vercel](https://vercel.com)
+   - Click "Import Project" 
+   - Select this repository: `ASIM7815/fsmba`
+   - Click "Deploy"
+   - Your site will be live at: `https://your-project.vercel.app`
+
+2. **Via Vercel CLI**:
+   ```bash
+   npm install -g vercel
+   vercel login
+   vercel --prod
+   ```
+
+3. **Manual Upload**:
+   - Zip all files
+   - Upload to any static hosting (Netlify, GitHub Pages, etc.)
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
+
+---
+
 ## 📋 Approved Students
 Only the following roll numbers can access the exam:
 - 160525672063, 160525672066, 160525672080
