@@ -8,6 +8,9 @@ let timeRemaining = 1800; // 30 minutes in seconds
 let shuffledQuestions = []; // Store shuffled questions for this student
 let originalQuestionOrder = []; // Store original question indices
 let baseQuestions = []; // Will be populated from questionBank
+let examInProgress = false; // Track if exam is in progress
+let tabSwitchDetected = false; // Track if student switched tabs
+let fullscreenExitDetected = false; // Track if student exited fullscreen
 
 // Shuffle array function (Fisher-Yates algorithm)
 function shuffleArray(array) {
@@ -168,9 +171,19 @@ function startExam() {
     initializeAnswers();
     currentQuestionIndex = 0;
     timeRemaining = 1800; // Reset timer to 30 minutes
+    examInProgress = true; // Mark exam as in progress
+    tabSwitchDetected = false;
+    fullscreenExitDetected = false;
     
     document.getElementById('displayStudentRollNumber').textContent = 'Roll No: ' + studentRollNumber;
     showPage('examPage');
+    
+    // Request fullscreen
+    enterFullscreen();
+    
+    // Start monitoring for tab switches and fullscreen exit
+    startMonitoring();
+    
     startTimer();
     displayQuestion();
     
@@ -178,6 +191,176 @@ function startExam() {
     window.onbeforeunload = function() {
         return "Are you sure you want to leave? Your exam progress will be lost!";
     };
+}
+
+// Enter fullscreen mode
+function enterFullscreen() {
+    const elem = document.documentElement;
+    
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen().catch(err => {
+            console.error('Error attempting to enable fullscreen:', err);
+            alert('Please allow fullscreen mode to start the exam');
+        });
+    } else if (elem.webkitRequestFullscreen) { /* Safari */
+        elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE11 */
+        elem.msRequestFullscreen();
+    }
+}
+
+// Exit fullscreen mode
+function exitFullscreen() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) { /* Safari */
+        document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { /* IE11 */
+        document.msExitFullscreen();
+    }
+}
+
+// Start monitoring for violations
+function startMonitoring() {
+    // Monitor tab visibility changes (switching tabs/windows)
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    // Monitor fullscreen changes (ESC key or exit fullscreen)
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+    
+    // Monitor window blur (switching to another window/app)
+    window.addEventListener('blur', handleWindowBlur);
+}
+
+// Stop monitoring
+function stopMonitoring() {
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
+    document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
+    document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
+    window.removeEventListener('blur', handleWindowBlur);
+}
+
+// Handle tab/window visibility change
+function handleVisibilityChange() {
+    if (examInProgress && document.hidden) {
+        tabSwitchDetected = true;
+        handleCheatingAttempt('Tab Switch Detected');
+    }
+}
+
+// Handle fullscreen exit
+function handleFullscreenChange() {
+    const isFullscreen = document.fullscreenElement || 
+                        document.webkitFullscreenElement || 
+                        document.mozFullScreenElement || 
+                        document.msFullscreenElement;
+    
+    if (examInProgress && !isFullscreen) {
+        fullscreenExitDetected = true;
+        handleCheatingAttempt('Fullscreen Exit Detected');
+    }
+}
+
+// Handle window blur (switched to another app/window)
+function handleWindowBlur() {
+    if (examInProgress) {
+        tabSwitchDetected = true;
+        handleCheatingAttempt('Window Switch Detected');
+    }
+}
+
+// Handle cheating attempt
+function handleCheatingAttempt(reason) {
+    if (!examInProgress) return; // Already handled
+    
+    examInProgress = false; // Mark exam as no longer in progress
+    
+    // Stop the timer
+    clearInterval(timerInterval);
+    
+    // Auto-submit exam with violation flag
+    autoSubmitForViolation(reason);
+}
+
+// Auto-submit exam due to violation
+async function autoSubmitForViolation(violationType) {
+    alert(`EXAM VIOLATION DETECTED: ${violationType}\n\nYour exam will be submitted automatically with your current score.`);
+    
+    // Calculate current results
+    let correctCount = 0;
+    let wrongCount = 0;
+    
+    shuffledQuestions.forEach((question, index) => {
+        if (userAnswers[index] === question.correct) {
+            correctCount++;
+        } else if (userAnswers[index] !== null) {
+            wrongCount++;
+        }
+    });
+    
+    const unanswered = shuffledQuestions.length - correctCount - wrongCount;
+    const percentage = ((correctCount / shuffledQuestions.length) * 100).toFixed(2);
+    
+    // Save results to Supabase with violation flag
+    const saveResult = await saveExamResults(
+        studentRollNumber,
+        correctCount,
+        wrongCount + unanswered,
+        shuffledQuestions.length,
+        parseFloat(percentage),
+        userAnswers,
+        {
+            questionOrder: originalQuestionOrder,
+            questions: shuffledQuestions,
+            violation: violationType,
+            violationDetected: true
+        }
+    );
+    
+    if (!saveResult.success) {
+        console.error('Failed to save results:', saveResult.error);
+    }
+    
+    // Stop monitoring
+    stopMonitoring();
+    
+    // Exit fullscreen
+    exitFullscreen();
+    
+    // Remove page close warning
+    window.onbeforeunload = null;
+    
+    // Display results
+    document.getElementById('resultStudentRollNumber').textContent = studentRollNumber;
+    document.getElementById('correctAnswers').textContent = correctCount;
+    document.getElementById('wrongAnswers').textContent = wrongCount + unanswered;
+    document.getElementById('score').textContent = `${correctCount}/${shuffledQuestions.length}`;
+    document.getElementById('percentage').textContent = `${percentage}%`;
+    
+    // Add violation warning to results
+    const resultsBox = document.querySelector('.results-box');
+    const violationWarning = document.createElement('div');
+    violationWarning.style.cssText = 'background: #fee2e2; color: #dc2626; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #dc2626;';
+    violationWarning.innerHTML = `<strong>⚠️ EXAM VIOLATION:</strong> ${violationType}`;
+    resultsBox.insertBefore(violationWarning, resultsBox.querySelector('.result-content'));
+    
+    // Change score color
+    const scoreElement = document.getElementById('score');
+    if (percentage >= 70) {
+        scoreElement.style.color = '#10b981';
+    } else if (percentage >= 40) {
+        scoreElement.style.color = '#f59e0b';
+    } else {
+        scoreElement.style.color = '#dc2626';
+    }
+    
+    // Show results page
+    showPage('resultsPage');
 }
 
 // Timer Function
@@ -327,7 +510,10 @@ function autoSubmitExam() {
 }
 
 function finishExam() {
+    examInProgress = false; // Mark exam as finished
     clearInterval(timerInterval);
+    stopMonitoring(); // Stop monitoring for violations
+    exitFullscreen(); // Exit fullscreen
     window.onbeforeunload = null; // Remove the page close warning
     
     // Calculate results

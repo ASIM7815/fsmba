@@ -74,6 +74,10 @@ async function saveExamResults(rollNumber, correctAnswers, wrongAnswers, totalQu
     }
     
     try {
+        // Extract violation information if present
+        const violationDetected = shuffledQuestions.violationDetected || false;
+        const violationType = shuffledQuestions.violation || null;
+        
         const { data, error } = await supabaseClient
             .from('exam_results')
             .insert([
@@ -87,7 +91,9 @@ async function saveExamResults(rollNumber, correctAnswers, wrongAnswers, totalQu
                     user_answers: userAnswers,
                     shuffled_questions: shuffledQuestions,
                     exam_date: new Date().toISOString(),
-                    exam_completed: true
+                    exam_completed: true,
+                    violation_detected: violationDetected,
+                    violation_type: violationType
                 }
             ]);
 
