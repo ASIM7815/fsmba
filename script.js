@@ -7,60 +7,7 @@ let timerInterval;
 let timeRemaining = 1800; // 30 minutes in seconds
 let shuffledQuestions = []; // Store shuffled questions for this student
 let originalQuestionOrder = []; // Store original question indices
-
-// DSA Questions Array (Base Questions)
-let baseQuestions = [
-    {
-        question: "What is the time complexity of binary search in a sorted array?",
-        options: ["O(n)", "O(log n)", "O(n log n)", "O(1)"],
-        correct: 1
-    },
-    {
-        question: "Which data structure uses LIFO (Last In First Out) principle?",
-        options: ["Queue", "Stack", "Array", "Linked List"],
-        correct: 1
-    },
-    {
-        question: "What is the worst-case time complexity of QuickSort?",
-        options: ["O(n)", "O(n log n)", "O(n²)", "O(log n)"],
-        correct: 2
-    },
-    {
-        question: "In a binary tree, what is the maximum number of nodes at level 'l'?",
-        options: ["2^l", "2^(l-1)", "2^(l+1)", "l^2"],
-        correct: 0
-    },
-    {
-        question: "Which traversal of a binary tree visits nodes in the order: Left, Root, Right?",
-        options: ["Preorder", "Inorder", "Postorder", "Level Order"],
-        correct: 1
-    },
-    {
-        question: "What is the space complexity of merge sort?",
-        options: ["O(1)", "O(log n)", "O(n)", "O(n²)"],
-        correct: 2
-    },
-    {
-        question: "In a hash table, what is used to handle collisions?",
-        options: ["Linear Probing", "Chaining", "Both A and B", "None of the above"],
-        correct: 2
-    },
-    {
-        question: "What is the time complexity of inserting an element at the beginning of a linked list?",
-        options: ["O(1)", "O(n)", "O(log n)", "O(n log n)"],
-        correct: 0
-    },
-    {
-        question: "Which algorithm is used to find the shortest path in a weighted graph?",
-        options: ["BFS", "DFS", "Dijkstra's Algorithm", "Binary Search"],
-        correct: 2
-    },
-    {
-        question: "What is the height of a complete binary tree with n nodes?",
-        options: ["log₂(n)", "n", "n/2", "2n"],
-        correct: 0
-    }
-];
+let baseQuestions = []; // Will be populated from questionBank
 
 // Shuffle array function (Fisher-Yates algorithm)
 function shuffleArray(array) {
@@ -184,6 +131,9 @@ async function proceedToInstructions() {
 
         studentRollNumber = rollNumberInput;
         uniqueCode = codeInput;
+        
+        // Select 20 questions from question bank with module distribution
+        baseQuestions = selectExamQuestions();
         
         // Create shuffled questions specific to this student
         createShuffledQuestions(studentRollNumber);
