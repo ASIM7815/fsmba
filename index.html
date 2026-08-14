@@ -148,6 +148,19 @@
         </div>
     </div>
 
+    <!-- Fullscreen Warning Modal -->
+    <div id="fullscreenWarningModal" class="modal">
+        <div class="modal-content warning-modal">
+            <h3>⚠️ WARNING: Fullscreen Exited</h3>
+            <p><strong>You have exited fullscreen mode!</strong></p>
+            <p>Return to fullscreen within <span id="warningCountdown" style="font-size: 24px; color: #dc2626; font-weight: bold;">10</span> seconds or your exam will be auto-submitted.</p>
+            <p style="color: #dc2626; font-weight: bold;">If you click a new tab or violate rules again, your exam will be immediately submitted!</p>
+            <div class="modal-buttons">
+                <button class="btn btn-success modal-btn" onclick="returnToFullscreen()">Return to Fullscreen</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>

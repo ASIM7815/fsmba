@@ -11,6 +11,8 @@ let baseQuestions = []; // Will be populated from questionBank
 let examInProgress = false; // Track if exam is in progress
 let tabSwitchDetected = false; // Track if student switched tabs
 let fullscreenExitDetected = false; // Track if student exited fullscreen
+let warningGiven = false; // Track if warning has been given
+let returnTimeout = null; // Timeout for returning to fullscreen
 
 // Shuffle array function (Fisher-Yates algorithm)
 function shuffleArray(array) {
@@ -174,6 +176,7 @@ function startExam() {
     examInProgress = true; // Mark exam as in progress
     tabSwitchDetected = false;
     fullscreenExitDetected = false;
+    warningGiven = false;
     
     document.getElementById('displayStudentRollNumber').textContent = 'Roll No: ' + studentRollNumber;
     showPage('examPage');
@@ -262,8 +265,53 @@ function handleFullscreenChange() {
     
     if (examInProgress && !isFullscreen) {
         fullscreenExitDetected = true;
-        handleCheatingAttempt('Fullscreen Exit Detected');
+        
+        // If already warned or tab switch detected, auto-submit
+        if (warningGiven || tabSwitchDetected) {
+            handleCheatingAttempt('Second Violation - Fullscreen Exit After Warning');
+        } else {
+            // First time - give warning
+            showFullscreenWarning();
+        }
     }
+}
+
+// Show warning modal for fullscreen exit
+function showFullscreenWarning() {
+    warningGiven = true;
+    
+    const modal = document.getElementById('fullscreenWarningModal');
+    modal.classList.add('active');
+    
+    // Give 10 seconds to return to fullscreen
+    let countdown = 10;
+    const countdownElement = document.getElementById('warningCountdown');
+    countdownElement.textContent = countdown;
+    
+    returnTimeout = setInterval(() => {
+        countdown--;
+        countdownElement.textContent = countdown;
+        
+        if (countdown <= 0) {
+            clearInterval(returnTimeout);
+            closeFullscreenWarning();
+            handleCheatingAttempt('Failed to Return to Fullscreen');
+        }
+    }, 1000);
+}
+
+// Return to fullscreen from warning
+function returnToFullscreen() {
+    clearInterval(returnTimeout);
+    closeFullscreenWarning();
+    enterFullscreen();
+    fullscreenExitDetected = false;
+}
+
+// Close fullscreen warning modal
+function closeFullscreenWarning() {
+    const modal = document.getElementById('fullscreenWarningModal');
+    modal.classList.remove('active');
 }
 
 // Handle window blur (switched to another app/window)

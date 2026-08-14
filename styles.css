@@ -478,3 +478,21 @@ body {
         width: 100%;
     }
 }
+
+/* Warning Modal */
+.warning-modal {
+    border: 3px solid #dc2626;
+    max-width: 600px;
+}
+
+.warning-modal h3 {
+    color: #dc2626;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+.warning-modal p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
