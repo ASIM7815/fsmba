@@ -127,8 +127,12 @@ async function proceedToInstructions() {
             return;
         }
 
+        // Store exam type globally
+        window.currentExamType = detectExamType(codeInput);
+        window.currentUniqueCode = codeInput;
+
         // Check if student has already taken the exam
-        const examStatus = await checkExamStatus(rollNumberInput);
+        const examStatus = await checkExamStatus(rollNumberInput, codeInput);
         if (examStatus.alreadyTaken) {
             showErrorModal('You have already completed this exam. You cannot take it again.');
             return;
@@ -137,8 +141,17 @@ async function proceedToInstructions() {
         studentRollNumber = rollNumberInput;
         uniqueCode = codeInput;
         
-        // Select 20 questions from question bank with module distribution
-        baseQuestions = selectExamQuestions();
+        // Select 20 questions from question bank based on exam type
+        if (validation.examType === 'FSMBA') {
+            // FSMBA: Use existing selectExamQuestions function
+            baseQuestions = selectExamQuestions();
+        } else if (validation.examType === 'MBA_REGULAR') {
+            // MBA Regular: Use new selectMBARegularExamQuestions function
+            baseQuestions = selectMBARegularExamQuestions();
+        } else {
+            showErrorModal('Exam type not recognized. Please contact administrator.');
+            return;
+        }
         
         // Create shuffled questions specific to this student
         createShuffledQuestions(studentRollNumber);

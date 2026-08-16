@@ -17,6 +17,24 @@ if (typeof supabase !== 'undefined') {
     console.error('Supabase library not loaded');
 }
 
+// Detect exam type based on unique code
+function detectExamType(uniqueCode) {
+    if (uniqueCode === 'fsmba2026') {
+        return {
+            type: 'FSMBA',
+            studentsTable: 'students',
+            resultsTable: 'exam_results'
+        };
+    } else if (uniqueCode === 'fsmba1708') {
+        return {
+            type: 'MBA_REGULAR',
+            studentsTable: 'mba_regular_students',
+            resultsTable: 'mba_regular_exam_results'
+        };
+    }
+    return null;
+}
+
 // Validate student credentials against database
 async function validateCredentials(rollNumber, uniqueCode) {
     if (!supabaseClient) {
@@ -26,10 +44,19 @@ async function validateCredentials(rollNumber, uniqueCode) {
         };
     }
 
+    // Detect which exam system to use
+    const examType = detectExamType(uniqueCode);
+    if (!examType) {
+        return {
+            valid: false,
+            error: 'Invalid unique code. Please check your credentials.'
+        };
+    }
+
     try {
-        // Query the students table
+        // Query the appropriate students table
         const { data, error } = await supabaseClient
-            .from('students')
+            .from(examType.studentsTable)
             .select('*')
             .eq('roll_number', rollNumber)
             .eq('unique_code', uniqueCode)
@@ -55,7 +82,8 @@ async function validateCredentials(rollNumber, uniqueCode) {
         return {
             valid: true,
             error: null,
-            student: data
+            student: data,
+            examType: examType.type
         };
     } catch (err) {
         console.error('Exception validating credentials:', err);
@@ -73,13 +101,20 @@ async function saveExamResults(rollNumber, correctAnswers, wrongAnswers, totalQu
         return { success: false, error: 'Database connection not available' };
     }
     
+    // Detect exam type from global variable (set during login)
+    const examType = window.currentExamType || detectExamType(window.currentUniqueCode);
+    if (!examType) {
+        console.error('Exam type not detected');
+        return { success: false, error: 'Exam type not identified' };
+    }
+    
     try {
         // Extract violation information if present
         const violationDetected = shuffledQuestions.violationDetected || false;
         const violationType = shuffledQuestions.violation || null;
         
         const { data, error } = await supabaseClient
-            .from('exam_results')
+            .from(examType.resultsTable)
             .insert([
                 {
                     roll_number: rollNumber,
@@ -110,15 +145,22 @@ async function saveExamResults(rollNumber, correctAnswers, wrongAnswers, totalQu
 }
 
 // Check if student has already taken the exam
-async function checkExamStatus(rollNumber) {
+async function checkExamStatus(rollNumber, uniqueCode) {
     if (!supabaseClient) {
         console.error('Supabase client not initialized');
         return { alreadyTaken: false, error: 'Database connection not available' };
     }
     
+    // Detect exam type
+    const examType = detectExamType(uniqueCode);
+    if (!examType) {
+        console.error('Exam type not detected');
+        return { alreadyTaken: false, error: 'Exam type not identified' };
+    }
+    
     try {
         const { data, error } = await supabaseClient
-            .from('exam_results')
+            .from(examType.resultsTable)
             .select('*')
             .eq('roll_number', rollNumber)
             .eq('exam_completed', true)
