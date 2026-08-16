@@ -113,24 +113,29 @@ async function saveExamResults(rollNumber, correctAnswers, wrongAnswers, totalQu
         const violationDetected = shuffledQuestions.violationDetected || false;
         const violationType = shuffledQuestions.violation || null;
         
+        // Prepare data object based on table schema
+        const resultData = {
+            roll_number: rollNumber,
+            correct_answers: correctAnswers,
+            wrong_answers: wrongAnswers,
+            total_questions: totalQuestions,
+            percentage: percentage,
+            user_answers: userAnswers,
+            violation_detected: violationDetected,
+            violation_type: violationType
+        };
+        
+        // Add additional_data with all exam information
+        resultData.additional_data = {
+            score: `${correctAnswers}/${totalQuestions}`,
+            shuffled_questions: shuffledQuestions,
+            exam_date: new Date().toISOString(),
+            exam_completed: true
+        };
+        
         const { data, error } = await supabaseClient
             .from(examType.resultsTable)
-            .insert([
-                {
-                    roll_number: rollNumber,
-                    correct_answers: correctAnswers,
-                    wrong_answers: wrongAnswers,
-                    total_questions: totalQuestions,
-                    percentage: percentage,
-                    score: `${correctAnswers}/${totalQuestions}`,
-                    user_answers: userAnswers,
-                    shuffled_questions: shuffledQuestions,
-                    exam_date: new Date().toISOString(),
-                    exam_completed: true,
-                    violation_detected: violationDetected,
-                    violation_type: violationType
-                }
-            ]);
+            .insert([resultData]);
 
         if (error) {
             console.error('Error saving results:', error);
@@ -163,7 +168,6 @@ async function checkExamStatus(rollNumber, uniqueCode) {
             .from(examType.resultsTable)
             .select('*')
             .eq('roll_number', rollNumber)
-            .eq('exam_completed', true)
             .single();
 
         if (error && error.code !== 'PGRST116') { // PGRST116 is "not found" error
