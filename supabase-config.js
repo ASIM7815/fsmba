@@ -31,6 +31,12 @@ function detectExamType(uniqueCode) {
             studentsTable: 'mba_regular_students',
             resultsTable: 'mba_regular_exam_results'
         };
+    } else if (uniqueCode === 'fsmba100') {
+        return {
+            type: 'STOCK_MARKET',
+            studentsTable: 'students',
+            resultsTable: 'exam_results'
+        };
     }
     return null;
 }

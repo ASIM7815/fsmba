@@ -145,6 +145,9 @@ async function proceedToInstructions() {
         if (validation.examType === 'FSMBA') {
             // FSMBA: Use existing selectExamQuestions function
             baseQuestions = selectExamQuestions();
+        } else if (validation.examType === 'STOCK_MARKET') {
+            // Stock Market: Use existing selectExamQuestions function (9 modules)
+            baseQuestions = selectExamQuestions();
         } else if (validation.examType === 'MBA_REGULAR') {
             // MBA Regular: Use new selectMBARegularExamQuestions function
             baseQuestions = selectMBARegularExamQuestions();
