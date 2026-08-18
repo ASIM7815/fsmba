@@ -17,7 +17,7 @@ Your exam portal now supports **TWO independent exam systems** in a single deplo
 
 ### MBA Regular Exam System  
 - **Students:** 229 (160525672001 to 160525672229)
-- **Unique Code:** `fsmba1808`
+- **Unique Code:** `fsmba03`
 - **Questions:** 150 TallyPrime questions across 6 modules
 - **Distribution:** 3 from M1, 3 from M2, 4 from M3, 4 from M4, 3 from M5, 3 from M6 (20 total)
 - **Tables:** `mba_regular_students`, `mba_regular_exam_results`
@@ -30,7 +30,7 @@ Your exam portal now supports **TWO independent exam systems** in a single deplo
 1. Student enters roll number + unique code
 2. System detects code:
    - `fsmba2026` → FSMBA exam (DSA questions)
-   - `fsmba1808` → MBA Regular exam (TallyPrime questions)
+   - `fsmba03` → MBA Regular exam (TallyPrime questions)
 3. Loads appropriate questions from respective modules
 4. Saves results to correct table
 
@@ -63,7 +63,7 @@ Open: https://ncwugityxjyfpreccvsp.supabase.co
 #### A. Add MBA Regular Students (if not done)
 ```sql
 -- Run: CREATE_MBA_REGULAR_TABLES.sql
--- This creates 229 students with code fsmba1808
+-- This creates 229 students with code fsmba03
 ```
 
 #### B. Add New FSMBA Students (if not done)
@@ -112,7 +112,7 @@ SELECT COUNT(*) FROM mba_regular_exam_results;
 #### Test MBA Regular System
 1. Go to same website
 2. Enter roll number: `160525672001`
-3. Enter unique code: `fsmba1808`
+3. Enter unique code: `fsmba03`
 4. Verify TallyPrime questions load
 5. Complete exam and check results save
 
@@ -183,7 +183,7 @@ exam_results
 mba_regular_students (229 students)
 ├── id
 ├── roll_number
-├── unique_code (fsmba1808)
+├── unique_code (fsmba03)
 ├── is_active
 └── created_at
 
@@ -365,7 +365,7 @@ GROUP BY violation_type;
 2. ✅ Run ADD_NEW_STUDENTS.sql if not done
 3. ✅ Run violation column updates on both tables
 4. ✅ Test FSMBA system with code fsmba2026
-5. ✅ Test MBA Regular system with code fsmba1808
+5. ✅ Test MBA Regular system with code fsmba03
 
 ### Before Exam Day
 - [ ] Verify all 31 FSMBA students can login
@@ -409,7 +409,7 @@ fsmba/
 ### For MBA Regular Students (229 students)
 1. Go to same exam portal URL
 2. Enter your roll number (160525672001 to 160525672229)
-3. Enter unique code: **fsmba1808**
+3. Enter unique code: **fsmba03**
 4. Complete 20 TallyPrime questions in 30 minutes
 
 ---

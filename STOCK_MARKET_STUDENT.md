@@ -15,7 +15,7 @@ Your exam portal now supports **THREE independent exam systems**:
 | Exam System | Students | Unique Code | Questions | Modules |
 |-------------|----------|-------------|-----------|---------|
 | **FSMBA** | 31 | fsmba2026 | 200+ DSA | 9 modules |
-| **MBA Regular** | 229 | fsmba1808 | 150 TallyPrime | 6 modules |
+| **MBA Regular** | 229 | fsmba03 | 150 TallyPrime | 6 modules |
 | **Stock Market** | 1 | fsmba100 | 200+ Stock Market | 9 modules |
 
 ---

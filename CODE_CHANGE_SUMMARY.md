@@ -1,8 +1,8 @@
 # MBA Regular Unique Code Update Summary
 
-## 🔄 Code Change: fsmba1708 → fsmba1808
+## 🔄 Code Change: fsmba1708 → fsmba03
 
-Updated MBA Regular student unique code from **fsmba1708** to **fsmba1808**
+Updated MBA Regular student unique code from **fsmba1708** to **fsmba03**
 
 ---
 
@@ -33,7 +33,7 @@ Open Supabase SQL Editor and run:
 ```sql
 -- Update all existing MBA Regular students
 UPDATE mba_regular_students 
-SET unique_code = 'fsmba1808'
+SET unique_code = 'fsmba03'
 WHERE unique_code = 'fsmba1708';
 
 -- Verify the update
@@ -64,9 +64,9 @@ Or run the complete script: `UPDATE_MBA_CODE_TO_1808.sql`
 
 | Component | Old Code | New Code | Status |
 |-----------|----------|----------|--------|
-| **Frontend Code** | fsmba1708 | fsmba1808 | ✅ Updated |
-| **SQL Scripts** | fsmba1708 | fsmba1808 | ✅ Updated |
-| **Documentation** | fsmba1708 | fsmba1808 | ✅ Updated |
+| **Frontend Code** | fsmba1708 | fsmba03 | ✅ Updated |
+| **SQL Scripts** | fsmba1708 | fsmba03 | ✅ Updated |
+| **Documentation** | fsmba1708 | fsmba03 | ✅ Updated |
 | **Supabase DB** | fsmba1708 | fsmba1708 | ⏳ **PENDING** |
 
 ---
@@ -76,14 +76,14 @@ Or run the complete script: `UPDATE_MBA_CODE_TO_1808.sql`
 ### Step 1: Update Supabase Database
 ```sql
 UPDATE mba_regular_students 
-SET unique_code = 'fsmba1808'
+SET unique_code = 'fsmba03'
 WHERE unique_code = 'fsmba1708';
 ```
 
 ### Step 2: Verify Update
 ```sql
--- Should show 229 students with fsmba1808
-SELECT COUNT(*) FROM mba_regular_students WHERE unique_code = 'fsmba1808';
+-- Should show 229 students with fsmba03
+SELECT COUNT(*) FROM mba_regular_students WHERE unique_code = 'fsmba03';
 
 -- Should show 0 students with old code
 SELECT COUNT(*) FROM mba_regular_students WHERE unique_code = 'fsmba1708';
@@ -92,7 +92,7 @@ SELECT COUNT(*) FROM mba_regular_students WHERE unique_code = 'fsmba1708';
 ### Step 3: Test Login
 1. Refresh browser (Ctrl+F5)
 2. Try old code `fsmba1708` → Should fail ❌
-3. Try new code `fsmba1808` → Should work ✅
+3. Try new code `fsmba03` → Should work ✅
 
 ---
 
@@ -100,9 +100,9 @@ SELECT COUNT(*) FROM mba_regular_students WHERE unique_code = 'fsmba1708';
 
 After running SQL update:
 
-- [ ] Supabase shows 229 students with code `fsmba1808`
+- [ ] Supabase shows 229 students with code `fsmba03`
 - [ ] Supabase shows 0 students with code `fsmba1708`
-- [ ] Frontend login works with new code `fsmba1808`
+- [ ] Frontend login works with new code `fsmba03`
 - [ ] Frontend login fails with old code `fsmba1708`
 - [ ] Students can complete exam and save results
 - [ ] Results saved to `mba_regular_exam_results` table
@@ -127,7 +127,7 @@ After running SQL update:
 | Exam System | Students | Unique Code | Status |
 |-------------|----------|-------------|--------|
 | **FSMBA** | 31 | fsmba2026 | ✅ Active |
-| **MBA Regular** | 229 | fsmba1808 | ✅ Active (after DB update) |
+| **MBA Regular** | 229 | fsmba03 | ✅ Active (after DB update) |
 
 ---
 
@@ -136,7 +136,7 @@ After running SQL update:
 ### For MBA Regular Students (229 students)
 1. Go to exam portal
 2. Enter roll number: 160525672001 to 160525672229
-3. Enter unique code: **fsmba1808** (NEW CODE)
+3. Enter unique code: **fsmba03** (NEW CODE)
 4. Complete 20 TallyPrime questions
 
 ---
@@ -144,7 +144,7 @@ After running SQL update:
 ## 📝 Summary
 
 **What Changed:**
-- MBA Regular unique code: `fsmba1708` → `fsmba1808`
+- MBA Regular unique code: `fsmba1708` → `fsmba03`
 
 **What's Updated:**
 - ✅ All code files
@@ -161,4 +161,4 @@ After running SQL update:
 
 Last Updated: August 13, 2026  
 Change Version: Commit cf4dd1b  
-New Unique Code: **fsmba1808**
+New Unique Code: **fsmba03**

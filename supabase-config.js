@@ -25,7 +25,7 @@ function detectExamType(uniqueCode) {
             studentsTable: 'students',
             resultsTable: 'exam_results'
         };
-    } else if (uniqueCode === 'fsmba1808') {
+    } else if (uniqueCode === 'fsmba03') {
         return {
             type: 'MBA_REGULAR',
             studentsTable: 'mba_regular_students',
