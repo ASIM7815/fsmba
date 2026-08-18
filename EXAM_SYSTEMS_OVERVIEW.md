@@ -13,7 +13,7 @@ Your exam portal now supports **two independent exam systems** with different st
 | **Students Table** | `students` | `mba_regular_students` |
 | **Results Table** | `exam_results` | `mba_regular_exam_results` |
 | **Total Students** | 31 | 229 |
-| **Unique Code** | `fsmba2026` | `fsmba1708` |
+| **Unique Code** | `fsmba2026` | `fsmba1808` |
 | **Roll Number Range** | Mixed | 160525672001 - 160525672229 |
 | **Questions** | 200+ DSA questions | (To be provided) |
 | **Status** | ✅ Active | ⏳ Pending setup |
@@ -44,7 +44,7 @@ Your exam portal now supports **two independent exam systems** with different st
 ### Students: 229
 - **Table:** `mba_regular_students`
 - **Results Table:** `mba_regular_exam_results`
-- **Unique Code:** `fsmba1708`
+- **Unique Code:** `fsmba1808`
 - **Questions:** Pending (you will provide)
 - **Roll Numbers:** 
   - Sequential: 160525672001 through 160525672229
@@ -64,7 +64,7 @@ Your exam portal now supports **two independent exam systems** with different st
 ### Option 1: Single Portal with Auto-Detection (Recommended)
 - One website detects unique code
 - `fsmba2026` → Uses `students` table + `exam_results`
-- `fsmba1708` → Uses `mba_regular_students` table + `mba_regular_exam_results`
+- `fsmba1808` → Uses `mba_regular_students` table + `mba_regular_exam_results`
 - Loads different question sets based on unique code
 
 **Pros:**

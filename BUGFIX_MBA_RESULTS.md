@@ -84,7 +84,7 @@ CREATE TABLE mba_regular_exam_results (
 1. **Refresh Browser:** Press Ctrl+F5 or Cmd+Shift+R
 2. **Login MBA Regular:**
    - Roll Number: 160525672001
-   - Unique Code: fsmba1708
+   - Unique Code: fsmba1808
 3. **Complete Exam:** Answer questions and submit
 4. **Check Supabase:**
    ```sql

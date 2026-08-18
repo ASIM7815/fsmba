@@ -4,7 +4,7 @@
 
 I've created a **separate exam system** for MBA Regular students:
 - **229 students** (roll numbers 160525672001 to 160525672229)
-- **Unique code:** `fsmba1708`
+- **Unique code:** `fsmba1808`
 - **Separate tables** in Supabase (won't interfere with FSMBA system)
 
 ---
@@ -17,7 +17,7 @@ I've created a **separate exam system** for MBA Regular students:
 This script creates:
 - `mba_regular_students` table (229 students)
 - `mba_regular_exam_results` table (for storing exam results)
-- All 229 roll numbers with unique code `fsmba1708`
+- All 229 roll numbers with unique code `fsmba1808`
 - Row Level Security policies
 
 ### 2. Documentation
@@ -101,7 +101,7 @@ Q2. Next question?
 2. Enter roll number + unique code
 3. System automatically detects:
    - `fsmba2026` → FSMBA exam (existing questions)
-   - `fsmba1708` → MBA Regular exam (new questions)
+   - `fsmba1808` → MBA Regular exam (new questions)
 4. Loads appropriate questions
 5. Saves to correct table
 
@@ -168,7 +168,7 @@ Once you provide questions, I can implement in ~30 minutes:
 ### MBA Regular System (New)
 - ⏳ SQL script ready (need to run in Supabase)
 - ⏳ 229 students ready to add
-- ⏳ Unique code: `fsmba1708` defined
+- ⏳ Unique code: `fsmba1808` defined
 - ⏳ Questions needed
 - ⏳ Integration pending
 
@@ -178,7 +178,7 @@ Once you provide questions, I can implement in ~30 minutes:
 
 Once integrated, we'll test:
 1. **FSMBA student login** with `fsmba2026`
-2. **MBA Regular student login** with `fsmba1708`
+2. **MBA Regular student login** with `fsmba1808`
 3. **Verify correct questions** load for each
 4. **Verify results save** to correct tables
 5. **Test anti-cheating** works for both
@@ -221,7 +221,7 @@ I'll immediately:
 
 ### MBA Regular System
 - **Students:** 229
-- **Code:** `fsmba1708`
+- **Code:** `fsmba1808`
 - **Tables:** `mba_regular_students`, `mba_regular_exam_results`
 - **Questions:** Pending
 
