@@ -37,6 +37,12 @@ function detectExamType(uniqueCode) {
             studentsTable: 'students',
             resultsTable: 'exam_results'
         };
+    } else if (uniqueCode === 'fscse01') {
+        return {
+            type: 'CSE',
+            studentsTable: 'cse_students',
+            resultsTable: 'cse_exam_results'
+        };
     }
     return null;
 }
