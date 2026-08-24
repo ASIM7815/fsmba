@@ -152,9 +152,8 @@ async function proceedToInstructions() {
             // MBA Regular: Use new selectMBARegularExamQuestions function
             baseQuestions = selectMBARegularExamQuestions();
         } else if (validation.examType === 'CSE') {
-            // CSE: Questions will be added later - for now show error
-            showErrorModal('CSE exam questions are being prepared. Please contact administrator.');
-            return;
+            // CSE: Use selectCSEExamQuestions function (60 total, 20 random)
+            baseQuestions = selectCSEExamQuestions();
         } else {
             showErrorModal('Exam type not recognized. Please contact administrator.');
             return;
