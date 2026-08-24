@@ -1,3 +1,168 @@
+// ============================================
+// ANTI-INSPECT / DEVTOOLS BLOCKING
+// ============================================
+
+// Disable right-click context menu
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    return false;
+});
+
+// Disable keyboard shortcuts for DevTools
+document.addEventListener('keydown', function(e) {
+    // F12 (DevTools)
+    if (e.keyCode === 123) {
+        e.preventDefault();
+        return false;
+    }
+    
+    // Ctrl+Shift+I (Inspect)
+    if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+        e.preventDefault();
+        return false;
+    }
+    
+    // Ctrl+Shift+J (Console)
+    if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+        e.preventDefault();
+        return false;
+    }
+    
+    // Ctrl+Shift+C (Inspect Element)
+    if (e.ctrlKey && e.shiftKey && e.keyCode === 67) {
+        e.preventDefault();
+        return false;
+    }
+    
+    // Ctrl+U (View Source)
+    if (e.ctrlKey && e.keyCode === 85) {
+        e.preventDefault();
+        return false;
+    }
+    
+    // Ctrl+S (Save Page)
+    if (e.ctrlKey && e.keyCode === 83) {
+        e.preventDefault();
+        return false;
+    }
+    
+    // Cmd+Option+I (Mac Inspect)
+    if (e.metaKey && e.altKey && e.keyCode === 73) {
+        e.preventDefault();
+        return false;
+    }
+    
+    // Cmd+Option+J (Mac Console)
+    if (e.metaKey && e.altKey && e.keyCode === 74) {
+        e.preventDefault();
+        return false;
+    }
+    
+    // Cmd+Option+C (Mac Inspect Element)
+    if (e.metaKey && e.altKey && e.keyCode === 67) {
+        e.preventDefault();
+        return false;
+    }
+});
+
+// Detect DevTools opening (by checking window size changes)
+let devtoolsOpen = false;
+const threshold = 160;
+
+const detectDevTools = () => {
+    const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+    const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+    
+    if (widthThreshold || heightThreshold) {
+        if (!devtoolsOpen && examInProgress) {
+            devtoolsOpen = true;
+            console.warn('DevTools detected - This is a violation');
+            // Auto-submit if exam is in progress
+            if (examInProgress) {
+                alert('Developer tools detected! Exam will be auto-submitted.');
+                submitExam(true); // Force submit
+            }
+        }
+    } else {
+        devtoolsOpen = false;
+    }
+};
+
+// Check for DevTools every 500ms
+setInterval(detectDevTools, 500);
+
+// Detect if DevTools is open using console debugging
+let consoleCheckInterval;
+const detectConsole = () => {
+    const before = performance.now();
+    debugger;
+    const after = performance.now();
+    
+    if (after - before > 100 && examInProgress) {
+        console.warn('Console debugging detected');
+        alert('Developer tools detected! Exam will be auto-submitted.');
+        submitExam(true);
+    }
+};
+
+// Disable text selection during exam
+document.addEventListener('selectstart', function(e) {
+    if (examInProgress) {
+        e.preventDefault();
+        return false;
+    }
+});
+
+// Disable copy during exam
+document.addEventListener('copy', function(e) {
+    if (examInProgress) {
+        e.preventDefault();
+        return false;
+    }
+});
+
+// Disable cut during exam
+document.addEventListener('cut', function(e) {
+    if (examInProgress) {
+        e.preventDefault();
+        return false;
+    }
+});
+
+// Override console methods to detect usage
+(function() {
+    const original = {
+        log: console.log,
+        warn: console.warn,
+        error: console.error,
+        info: console.info
+    };
+    
+    console.log = function() {
+        if (examInProgress) {
+            // Silently ignore
+        }
+    };
+    
+    console.warn = function() {
+        if (examInProgress) {
+            // Silently ignore
+        }
+    };
+    
+    console.error = function() {
+        if (examInProgress) {
+            // Silently ignore
+        }
+    };
+    
+    console.info = function() {
+        if (examInProgress) {
+            // Silently ignore
+        }
+    };
+})();
+
 // Global Variables
 let studentRollNumber = '';
 let uniqueCode = '';
