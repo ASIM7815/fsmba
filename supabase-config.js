@@ -55,6 +55,12 @@ function detectExamType(uniqueCode) {
             studentsTable: 'ece_students',
             resultsTable: 'ece_exam_results'
         };
+    } else if (uniqueCode === 'fsit') {
+        return {
+            type: 'IT',
+            studentsTable: 'it_students',
+            resultsTable: 'it_exam_results'
+        };
     }
     return null;
 }
