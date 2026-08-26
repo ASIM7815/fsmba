@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS civil_exam_results (
     correct_answers INTEGER NOT NULL,
     wrong_answers INTEGER NOT NULL,
     percentage DECIMAL(5,2) NOT NULL,
+    user_answers JSONB,
     submitted_at TIMESTAMPTZ DEFAULT NOW(),
     time_taken INTEGER, -- Time taken in seconds
     violation_detected BOOLEAN DEFAULT FALSE,
