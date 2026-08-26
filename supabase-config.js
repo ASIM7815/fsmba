@@ -49,6 +49,12 @@ function detectExamType(uniqueCode) {
             studentsTable: 'civil_students',
             resultsTable: 'civil_exam_results'
         };
+    } else if (uniqueCode === 'fsece') {
+        return {
+            type: 'ECE',
+            studentsTable: 'ece_students',
+            resultsTable: 'ece_exam_results'
+        };
     }
     return null;
 }
