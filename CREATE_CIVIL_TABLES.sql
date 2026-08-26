@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS civil_students (
     roll_number TEXT UNIQUE NOT NULL,
     unique_code TEXT NOT NULL,
     student_name TEXT,
+    is_active BOOLEAN DEFAULT true,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
