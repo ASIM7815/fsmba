@@ -43,6 +43,12 @@ function detectExamType(uniqueCode) {
             studentsTable: 'cse_students',
             resultsTable: 'cse_exam_results'
         };
+    } else if (uniqueCode === 'fscivil') {
+        return {
+            type: 'CIVIL',
+            studentsTable: 'civil_students',
+            resultsTable: 'civil_exam_results'
+        };
     }
     return null;
 }

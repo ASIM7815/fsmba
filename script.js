@@ -319,6 +319,9 @@ async function proceedToInstructions() {
         } else if (validation.examType === 'CSE') {
             // CSE: Use selectCSEExamQuestions function (60 total, 20 random)
             baseQuestions = selectCSEExamQuestions();
+        } else if (validation.examType === 'CIVIL') {
+            // CIVIL: Use same questions as CSE (60 total, 20 random)
+            baseQuestions = selectCSEExamQuestions();
         } else {
             showErrorModal('Exam type not recognized. Please contact administrator.');
             return;
