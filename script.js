@@ -1,14 +1,18 @@
 // ============================================
 // ANTI-INSPECT / DEVTOOLS BLOCKING
+// TEMPORARILY DISABLED FOR DEBUGGING
 // ============================================
 
-// Disable right-click context menu
+// DISABLED: Disable right-click context menu
+/*
 document.addEventListener('contextmenu', function(e) {
     e.preventDefault();
     return false;
 });
+*/
 
-// Disable keyboard shortcuts for DevTools
+// DISABLED: Disable keyboard shortcuts for DevTools
+/*
 document.addEventListener('keydown', function(e) {
     // F12 (DevTools)
     if (e.keyCode === 123) {
@@ -64,8 +68,10 @@ document.addEventListener('keydown', function(e) {
         return false;
     }
 });
+*/
 
-// Detect DevTools opening (by checking window size changes)
+// DISABLED: Detect DevTools opening (by checking window size changes)
+/*
 let devtoolsOpen = false;
 const threshold = 160;
 
@@ -104,8 +110,10 @@ const detectConsole = () => {
         submitExam(true);
     }
 };
+*/
 
-// Disable text selection during exam
+// DISABLED: Disable text selection during exam
+/*
 document.addEventListener('selectstart', function(e) {
     if (examInProgress) {
         e.preventDefault();
@@ -120,16 +128,20 @@ document.addEventListener('copy', function(e) {
         return false;
     }
 });
+*/
 
-// Disable cut during exam
+// DISABLED: Disable cut during exam
+/*
 document.addEventListener('cut', function(e) {
     if (examInProgress) {
         e.preventDefault();
         return false;
     }
 });
+*/
 
-// Override console methods to detect usage
+// DISABLED: Override console methods to detect usage
+/*
 (function() {
     const original = {
         log: console.log,
@@ -162,6 +174,7 @@ document.addEventListener('cut', function(e) {
         }
     };
 })();
+*/
 
 // Global Variables
 let studentRollNumber = '';

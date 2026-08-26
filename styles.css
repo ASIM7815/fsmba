@@ -2,11 +2,13 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* Disable text selection globally during exam */
+    /* DISABLED FOR DEBUGGING: Disable text selection globally during exam */
+    /*
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    */
 }
 
 body {
@@ -19,8 +21,8 @@ body {
     background-attachment: fixed;
     min-height: 100vh;
     overflow-x: hidden;
-    /* Prevent right-click */
-    -webkit-touch-callout: none;
+    /* DISABLED: Prevent right-click */
+    /* -webkit-touch-callout: none; */
 }
 
 /* Page Management */
