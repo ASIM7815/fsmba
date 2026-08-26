@@ -328,6 +328,9 @@ async function proceedToInstructions() {
         } else if (validation.examType === 'IT') {
             // IT: Use same CSE questions (60 total, 20 random)
             baseQuestions = selectCSEExamQuestions();
+        } else if (validation.examType === 'AIDS') {
+            // AIDS: Use same CSE questions (60 total, 20 random)
+            baseQuestions = selectCSEExamQuestions();
         } else {
             showErrorModal('Exam type not recognized. Please contact administrator.');
             return;

@@ -61,6 +61,12 @@ function detectExamType(uniqueCode) {
             studentsTable: 'it_students',
             resultsTable: 'it_exam_results'
         };
+    } else if (uniqueCode === 'fsaids') {
+        return {
+            type: 'AIDS',
+            studentsTable: 'aids_students',
+            resultsTable: 'aids_exam_results'
+        };
     }
     return null;
 }
