@@ -28,8 +28,11 @@ CREATE TABLE IF NOT EXISTS civil_exam_results (
     wrong_answers INTEGER NOT NULL,
     percentage NUMERIC(5,2) NOT NULL,
     time_taken INTEGER, -- in seconds
+    user_answers JSONB, -- Student's answer selections
+    violation_detected BOOLEAN DEFAULT false, -- Track if violations occurred
+    violation_type TEXT, -- Type of violation (tab_switch, fullscreen_exit, etc.)
+    additional_data JSONB, -- For storing exam metadata, etc.
     submitted_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    additional_data JSONB, -- For storing violations, exam metadata, etc.
     FOREIGN KEY (roll_number) REFERENCES civil_students(roll_number)
 );
 
