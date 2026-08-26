@@ -73,19 +73,13 @@ async function validateCredentials(rollNumber, uniqueCode) {
 
     try {
         // Query the appropriate students table
-        // For CSE and Civil, don't check is_active (column doesn't exist)
-        let query = supabaseClient
+        const { data, error } = await supabaseClient
             .from(examType.studentsTable)
             .select('*')
             .eq('roll_number', rollNumber)
-            .eq('unique_code', uniqueCode);
-        
-        // Only check is_active for tables that have this column
-        if (examType.type !== 'CSE' && examType.type !== 'CIVIL') {
-            query = query.eq('is_active', true);
-        }
-        
-        const { data, error } = await query.single();
+            .eq('unique_code', uniqueCode)
+            .eq('is_active', true)
+            .single();
 
         if (error) {
             // If no matching record found

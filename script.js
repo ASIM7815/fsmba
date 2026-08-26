@@ -1,18 +1,14 @@
 // ============================================
 // ANTI-INSPECT / DEVTOOLS BLOCKING
-// TEMPORARILY DISABLED FOR DEBUGGING
 // ============================================
 
-// DISABLED: Disable right-click context menu
-/*
+// Disable right-click context menu
 document.addEventListener('contextmenu', function(e) {
     e.preventDefault();
     return false;
 });
-*/
 
-// DISABLED: Disable keyboard shortcuts for DevTools
-/*
+// Disable keyboard shortcuts for DevTools
 document.addEventListener('keydown', function(e) {
     // F12 (DevTools)
     if (e.keyCode === 123) {
@@ -68,10 +64,8 @@ document.addEventListener('keydown', function(e) {
         return false;
     }
 });
-*/
 
-// DISABLED: Detect DevTools opening (by checking window size changes)
-/*
+// Detect DevTools opening (by checking window size changes)
 let devtoolsOpen = false;
 const threshold = 160;
 
@@ -110,10 +104,8 @@ const detectConsole = () => {
         submitExam(true);
     }
 };
-*/
 
-// DISABLED: Disable text selection during exam
-/*
+// Disable text selection during exam
 document.addEventListener('selectstart', function(e) {
     if (examInProgress) {
         e.preventDefault();
@@ -128,20 +120,16 @@ document.addEventListener('copy', function(e) {
         return false;
     }
 });
-*/
 
-// DISABLED: Disable cut during exam
-/*
+// Disable cut during exam
 document.addEventListener('cut', function(e) {
     if (examInProgress) {
         e.preventDefault();
         return false;
     }
 });
-*/
 
-// DISABLED: Override console methods to detect usage
-/*
+// Override console methods to detect usage
 (function() {
     const original = {
         log: console.log,
@@ -174,7 +162,6 @@ document.addEventListener('cut', function(e) {
         }
     };
 })();
-*/
 
 // Global Variables
 let studentRollNumber = '';
@@ -333,8 +320,8 @@ async function proceedToInstructions() {
             // CSE: Use selectCSEExamQuestions function (60 total, 20 random)
             baseQuestions = selectCSEExamQuestions();
         } else if (validation.examType === 'CIVIL') {
-            // Civil: Use selectCivilExamQuestions function (60 total, 20 random, same as CSE)
-            baseQuestions = selectCivilExamQuestions();
+            // CIVIL: Use same selectCSEExamQuestions function (60 total, 20 random)
+            baseQuestions = selectCSEExamQuestions();
         } else {
             showErrorModal('Exam type not recognized. Please contact administrator.');
             return;
