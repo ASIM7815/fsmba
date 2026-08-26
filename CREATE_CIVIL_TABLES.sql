@@ -1,38 +1,15 @@
--- =============================================
--- CREATE CIVIL ENGINEERING STUDENTS TABLE
--- =============================================
--- 28 students with roll numbers 160525732001 to 160525732028
--- Unique code: fscivil
--- Same Git/Linux questions as CSE (60 questions, 20 random)
--- =============================================
-
--- Create civil_students table
+-- ============================================
+-- CIVIL ENGINEERING STUDENTS TABLE
+-- ============================================
+-- Create table for Civil Engineering students
 CREATE TABLE IF NOT EXISTS civil_students (
-    id SERIAL PRIMARY KEY,
-    roll_number VARCHAR(20) UNIQUE NOT NULL,
-    unique_code VARCHAR(20) NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    id BIGSERIAL PRIMARY KEY,
+    roll_number TEXT UNIQUE NOT NULL,
+    unique_code TEXT NOT NULL DEFAULT 'fscivil',
+    created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Create civil_exam_results table
-CREATE TABLE IF NOT EXISTS civil_exam_results (
-    id SERIAL PRIMARY KEY,
-    roll_number VARCHAR(20) NOT NULL,
-    unique_code VARCHAR(20) NOT NULL,
-    score INTEGER NOT NULL,
-    total_questions INTEGER NOT NULL DEFAULT 20,
-    correct_answers INTEGER NOT NULL,
-    wrong_answers INTEGER NOT NULL,
-    percentage DECIMAL(5,2) NOT NULL,
-    exam_completed BOOLEAN DEFAULT TRUE,
-    violation_detected BOOLEAN DEFAULT FALSE,
-    violation_type VARCHAR(50),
-    exam_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    additional_data JSONB,
-    FOREIGN KEY (roll_number) REFERENCES civil_students(roll_number)
-);
-
--- Insert 28 Civil Engineering students
+-- Insert 28 Civil Engineering students (160525732001 to 160525732028)
 INSERT INTO civil_students (roll_number, unique_code) VALUES
 ('160525732001', 'fscivil'),
 ('160525732002', 'fscivil'),
@@ -61,15 +38,58 @@ INSERT INTO civil_students (roll_number, unique_code) VALUES
 ('160525732025', 'fscivil'),
 ('160525732026', 'fscivil'),
 ('160525732027', 'fscivil'),
-('160525732028', 'fscivil');
+('160525732028', 'fscivil')
+ON CONFLICT (roll_number) DO NOTHING;
+
+-- ============================================
+-- CIVIL EXAM RESULTS TABLE
+-- ============================================
+-- Create table for Civil exam results
+CREATE TABLE IF NOT EXISTS civil_exam_results (
+    id BIGSERIAL PRIMARY KEY,
+    roll_number TEXT NOT NULL,
+    score INTEGER NOT NULL,
+    total_questions INTEGER DEFAULT 20,
+    correct_answers INTEGER NOT NULL,
+    wrong_answers INTEGER NOT NULL,
+    percentage DECIMAL(5,2) NOT NULL,
+    submitted_at TIMESTAMPTZ DEFAULT NOW(),
+    time_taken INTEGER, -- Time taken in seconds
+    violation_detected BOOLEAN DEFAULT FALSE,
+    violation_type TEXT,
+    additional_data JSONB,
+    CONSTRAINT fk_civil_student 
+        FOREIGN KEY (roll_number) 
+        REFERENCES civil_students(roll_number)
+        ON DELETE CASCADE
+);
 
 -- Create index for faster queries
-CREATE INDEX IF NOT EXISTS idx_civil_students_roll_code ON civil_students(roll_number, unique_code);
-CREATE INDEX IF NOT EXISTS idx_civil_results_roll ON civil_exam_results(roll_number);
-CREATE INDEX IF NOT EXISTS idx_civil_results_date ON civil_exam_results(exam_date);
+CREATE INDEX IF NOT EXISTS idx_civil_exam_results_roll_number 
+    ON civil_exam_results(roll_number);
 
--- Verify insertion
+CREATE INDEX IF NOT EXISTS idx_civil_exam_results_submitted_at 
+    ON civil_exam_results(submitted_at);
+
+-- ============================================
+-- VERIFICATION QUERIES
+-- ============================================
+-- Check Civil students count
 SELECT COUNT(*) as total_civil_students FROM civil_students;
 
--- Display all civil students
+-- View all Civil students
 SELECT * FROM civil_students ORDER BY roll_number;
+
+-- Check Civil results table structure
+SELECT column_name, data_type, is_nullable 
+FROM information_schema.columns 
+WHERE table_name = 'civil_exam_results';
+
+-- ============================================
+-- SUCCESS MESSAGE
+-- ============================================
+SELECT 
+    '✅ Civil Engineering tables created successfully!' as status,
+    '28 students added (160525732001-160525732028)' as students,
+    'Unique code: fscivil' as code,
+    'Results table: civil_exam_results' as results_table;
