@@ -2,8 +2,8 @@
 
 ## 🎉 MASSIVE Multi-Department Exam System
 
-**Total Students:** 584  
-**Total Exam Systems:** 7  
+**Total Students:** 680  
+**Total Exam Systems:** 8  
 **Total Question Banks:** 3  
 **Status:** ✅ Fully Integrated and Deployed
 
@@ -20,8 +20,9 @@
 | 5 | **Civil** | 28 | fscivil | 60 Git/Linux | civil_exam_results | ✅ Ready* |
 | 6 | **ECE** | 9 | fsece | 60 Git/Linux | ece_exam_results | ✅ Ready* |
 | 7 | **IT** | 46 | fsit | 60 Git/Linux | it_exam_results | ✅ Ready* |
+| 8 | **AIDS** | 96 | fsaids | 60 Git/Linux | aids_exam_results | ✅ Ready* |
 
-**Total: 584 students across 7 systems!**
+**Total: 680 students across 8 systems!**
 
 *Requires SQL execution in Supabase
 
@@ -34,8 +35,9 @@
 - **FSMBA:** 31 students - Stock Market Questions
 - **Stock Market:** 1 student - Stock Market Questions
 
-### 💻 Engineering/Technical (323 students)
+### 💻 Engineering/Technical (419 students)
 - **CSE:** 240 students - Git/Linux Questions
+- **AIDS:** 96 students - Git/Linux Questions
 - **IT:** 46 students - Git/Linux Questions
 - **Civil:** 28 students - Git/Linux Questions
 - **ECE:** 9 students - Git/Linux Questions
@@ -55,8 +57,8 @@
 **Topics:** Accounting, GST, inventory, payroll, banking, reports
 
 ### 3. Git/Linux Questions (60 questions)
-**Used by:** CSE, Civil, ECE, IT  
-**Students:** 323  
+**Used by:** CSE, Civil, ECE, IT, AIDS  
+**Students:** 419  
 **Topics:**
 - Git commands and workflows
 - Linux system administration
@@ -85,8 +87,10 @@
 10. `ece_exam_results` - ECE results
 11. `it_students` - IT students
 12. `it_exam_results` - IT results
+13. `aids_students` - AIDS students
+14. `aids_exam_results` - AIDS results
 
-**Total:** 12 tables for complete separation of data
+**Total:** 14 tables for complete separation of data
 
 ---
 
@@ -121,6 +125,13 @@ Action: Run in Supabase SQL Editor
 Test: Roll 160525737001, Code fsit
 ```
 
+#### 4. AIDS (96 students)
+```bash
+File: CREATE_AIDS_TABLES.sql
+Action: Run in Supabase SQL Editor
+Test: Roll 160525747001, Code fsaids
+```
+
 ---
 
 ## 🧪 Quick Test Reference
@@ -134,6 +145,7 @@ Test: Roll 160525737001, Code fsit
 | Civil | 160525732001 | fscivil | Git/Linux |
 | ECE | 160525735001 | fsece | Git/Linux |
 | IT | 160525737001 | fsit | Git/Linux |
+| AIDS | 160525747001 | fsaids | Git/Linux |
 
 ---
 
@@ -175,6 +187,7 @@ Test: Roll 160525737001, Code fsit
 2. `CREATE_CIVIL_TABLES.sql` - Civil (28 students)
 3. `CREATE_ECE_TABLES.sql` - ECE (9 students)
 4. `CREATE_IT_TABLES.sql` - IT (46 students)
+5. `CREATE_AIDS_TABLES.sql` - AIDS (96 students)
 
 ### Question Files:
 1. `questions.js` - Stock Market (200+ questions)

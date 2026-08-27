@@ -1,8 +1,9 @@
-// CSE Exam Questions - Git, Linux, GitHub, Networking
+// CSE/Civil/ECE/IT/AIDS Exam Questions - Git, Linux, GitHub, Networking
 // Total: 60 questions
 // Each student gets 20 random questions
 
 let cseQuestionBank = [
+    // Q1-Q20
     {
         question: "A developer needs a local copy of a remote repository. Which command is appropriate?",
         options: ["git init", "git clone", "git add", "git reset"],
@@ -19,13 +20,13 @@ let cseQuestionBank = [
         correct: 2
     },
     {
-        question: "Which pair contains only undoing-change commands explicitly listed in the syllabus?",
-        options: ["git branch and git merge", "git init and git clone", "git add and git commit", "git reset and git revert"],
-        correct: 3
+        question: "Which command stages a modified file named `app.py` for the next commit?",
+        options: ["git add app.py", "git log app.py", "git branch app.py", "git clone app.py"],
+        correct: 0
     },
     {
-        question: "Which command reports file-system disk-space usage?",
-        options: ["df", "du", "free", "top"],
+        question: "Which command changes the password of the current user?",
+        options: ["passwd", "groups", "ps", "df"],
         correct: 0
     },
     {
@@ -34,9 +35,9 @@ let cseQuestionBank = [
         correct: 2
     },
     {
-        question: "Which sequence best matches the basic collaboration workflow named in the syllabus?",
-        options: ["Clone → useradd → mount", "Push → firewall → snapshot", "Feature branch → pull request → merge", "Issue → disk format → merge"],
-        correct: 2
+        question: "Which GitHub feature is the standard place to report a bug or request a feature?",
+        options: ["Issues", "Releases only", "Git stash", "Linux jobs"],
+        correct: 0
     },
     {
         question: "A team wants a board for tracking work items visually. Which feature is appropriate?",
@@ -49,9 +50,9 @@ let cseQuestionBank = [
         correct: 3
     },
     {
-        question: "Which desktop virtualization platform is explicitly listed?",
-        options: ["auditd", "fail2ban", "iptables", "VirtualBox"],
-        correct: 3
+        question: "Which firewall utility provides a simplified interface commonly used on Ubuntu systems?",
+        options: ["ufw", "gpg", "nice", "KVM"],
+        correct: 0
     },
     {
         question: "Which command changes file permissions?",
@@ -64,8 +65,8 @@ let cseQuestionBank = [
         correct: 1
     },
     {
-        question: "A service must be managed on a systemd-based machine. Which command is appropriate?",
-        options: ["systemctl", "parted", "tar", "lsblk"],
+        question: "Which command attaches a file system to the Linux directory tree?",
+        options: ["mount", "umount", "journalctl", "rsync"],
         correct: 0
     },
     {
@@ -84,9 +85,9 @@ let cseQuestionBank = [
         correct: 2
     },
     {
-        question: "A script needs to check whether a server responds. Which command is suitable?",
-        options: ["alias", "wget", "ping", "at"],
-        correct: 2
+        question: "In a Bash script, which line is commonly used as the interpreter directive?",
+        options: ["#!/bin/bash", "//bin/bash", "@bash", "<bash>"],
+        correct: 0
     },
     {
         question: "Which pair is specifically listed for examining network/socket information?",
@@ -99,27 +100,29 @@ let cseQuestionBank = [
         correct: 1
     },
     {
-        question: "A script must repeat a command ten times. Which construct is most appropriate?",
-        options: ["Network command", "Alias", "Environment variable", "Loop"],
-        correct: 3
+        question: "Which Bash construct is used to choose between alternatives based on a condition?",
+        options: ["if", "mount", "ping", "alias"],
+        correct: 0
     },
+    
+    // Q21-Q40
     {
         question: "A one-time task must run later today. Which scheduler is appropriate?",
         options: ["cron", "curl", "at", "netstat"],
         correct: 2
     },
     {
-        question: "Which command adds a remote named origin?",
+        question: "Which command adds a remote named `origin`?",
         options: ["git remote add origin", "git status", "git init", "git branch"],
         correct: 0
     },
     {
-        question: "Which command provides an interactive view of running processes?",
-        options: ["top", "ps", "df", "fg"],
+        question: "An administrator wants to remove an existing user account. Which command is appropriate?",
+        options: ["userdel", "useradd", "uptime", "top"],
         correct: 0
     },
     {
-        question: "To quickly create notes.txt as an empty file, which command is appropriate?",
+        question: "To quickly create `notes.txt` as an empty file, which command is appropriate?",
         options: ["touch", "less", "rm", "cd"],
         correct: 0
     },
@@ -134,18 +137,18 @@ let cseQuestionBank = [
         correct: 3
     },
     {
-        question: "Files must be synchronized to a backup location. Which utility is appropriate?",
-        options: ["fdisk", "mount", "systemctl", "rsync"],
-        correct: 3
-    },
-    {
-        question: "Which command copies a file?",
-        options: ["cp", "rm", "mv", "pwd"],
+        question: "Which command creates a compressed gzip tar archive named `backup.tar.gz` from folder `data`?",
+        options: ["tar -czf backup.tar.gz data", "mount backup.tar.gz data", "rsync -d backup.tar.gz", "lsblk backup.tar.gz"],
         correct: 0
     },
     {
-        question: "What is the purpose of a .gitignore file?",
-        options: ["Ignore unnecessary files from tracking", "Schedule jobs", "Create a firewall", "Delete the repository"],
+        question: "A student wants to display the contents of a short text file directly in the terminal. Which command is appropriate?",
+        options: ["cat", "pwd", "mkdir", "cd"],
+        correct: 0
+    },
+    {
+        question: "Which command records staged changes in the local repository?",
+        options: ["git commit", "git fetch", "git clone", "git status"],
         correct: 0
     },
     {
@@ -159,9 +162,9 @@ let cseQuestionBank = [
         correct: 3
     },
     {
-        question: "What does CI/CD automation in this syllabus primarily relate to?",
-        options: ["Linux text editors", "Disk partitions", "GitHub Actions workflows", "User groups"],
-        correct: 2
+        question: "A developer wants teammates to review a feature branch before it enters main. What should be opened?",
+        options: ["Pull request", "Disk partition", "Cron job", "User group"],
+        correct: 0
     },
     {
         question: "A mounted file system must be safely detached. Which command is appropriate?",
@@ -179,8 +182,8 @@ let cseQuestionBank = [
         correct: 3
     },
     {
-        question: "A server needs secure remote administration. Which syllabus technology should be used?",
-        options: ["SSH", "tar", "cron", "Git issues"],
+        question: "Which firewall management service is commonly associated with Fedora/RHEL-family systems?",
+        options: ["firewalld", "passwd", "rsync", "git"],
         correct: 0
     },
     {
@@ -189,9 +192,9 @@ let cseQuestionBank = [
         correct: 2
     },
     {
-        question: "Which pair contains only troubleshooting/logging items from the syllabus?",
-        options: ["mount and umount", "journalctl and dmesg", "tar and rsync", "fdisk and parted"],
-        correct: 1
+        question: "Which command displays messages from the systemd journal?",
+        options: ["journalctl", "fdisk", "parted", "lsblk"],
+        correct: 0
     },
     {
         question: "Repeated malicious login attempts need automatic blocking. Which tool is most relevant?",
@@ -203,6 +206,8 @@ let cseQuestionBank = [
         options: ["Snapshot", "Firewall", "Repository", "Variable"],
         correct: 3
     },
+    
+    // Q41-Q60
     {
         question: "Which mandatory-access-control technology is introduced in the syllabus?",
         options: ["cron", "GitHub Actions", "tar", "SELinux"],
@@ -214,14 +219,14 @@ let cseQuestionBank = [
         correct: 3
     },
     {
-        question: "Which utility schedules a job for a specified later time?",
-        options: ["at", "cron", "wget", "ss"],
+        question: "Which command tests basic reachability of a remote host?",
+        options: ["ping", "cron", "at", "alias"],
         correct: 0
     },
     {
-        question: "An existing process priority must be changed. Which command is appropriate?",
-        options: ["openssl", "renice", "fail2ban", "ulimit"],
-        correct: 1
+        question: "Which command-line tool can create encrypted or signed data using OpenPGP?",
+        options: ["gpg", "top", "df", "mount"],
+        correct: 0
     },
     {
         question: "Which file system is listed along with ext4?",
@@ -239,8 +244,8 @@ let cseQuestionBank = [
         correct: 1
     },
     {
-        question: "Which pair contains only web/network access commands from the syllabus?",
-        options: ["curl and wget", "functions and aliases", "cron and at", "variables and loops"],
+        question: "Which utility can transfer data to or from a URL and is commonly used with web APIs?",
+        options: ["curl", "jobs", "passwd", "df"],
         correct: 0
     },
     {
@@ -269,13 +274,13 @@ let cseQuestionBank = [
         correct: 2
     },
     {
-        question: "Which command removes a file?",
-        options: ["touch", "pwd", "rm", "less"],
-        correct: 2
+        question: "Which command creates a new directory named `project`?",
+        options: ["rm project", "mkdir project", "pwd project", "less project"],
+        correct: 1
     },
     {
-        question: "Which type of files does the syllabus mention as candidates for .gitignore?",
-        options: ["Logs and build files", "Linux distributions", "Mounted file systems", "User passwords"],
+        question: "Which command creates and switches to a new branch named `feature` using traditional syntax?",
+        options: ["git checkout -b feature", "git init feature", "git log feature", "git reset feature"],
         correct: 0
     },
     {
@@ -307,15 +312,18 @@ let cseQuestionBank = [
 
 // Function to select 20 random questions for CSE exam
 function selectCSEExamQuestions() {
-    // Shuffle all questions
-    let shuffled = [...cseQuestionBank];
+    // Create a copy of the question bank
+    let availableQuestions = [...cseQuestionBank];
+    let selectedQuestions = [];
     
-    // Fisher-Yates shuffle
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    // Fisher-Yates shuffle algorithm to randomize
+    for (let i = availableQuestions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [availableQuestions[i], availableQuestions[j]] = [availableQuestions[j], availableQuestions[i]];
     }
     
-    // Return first 20 questions
-    return shuffled.slice(0, 20);
+    // Select first 20 questions after shuffle
+    selectedQuestions = availableQuestions.slice(0, 20);
+    
+    return selectedQuestions;
 }
