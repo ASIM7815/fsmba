@@ -67,6 +67,12 @@ function detectExamType(uniqueCode) {
             studentsTable: 'aids_students',
             resultsTable: 'aids_exam_results'
         };
+    } else if (uniqueCode === 'fs4cse02') {
+        return {
+            type: 'THIRDCSE',
+            studentsTable: 'thirdcse_students',
+            resultsTable: 'thirdcse_exam_results'
+        };
     }
     return null;
 }
