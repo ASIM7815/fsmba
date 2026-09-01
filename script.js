@@ -542,34 +542,17 @@ async function autoSubmitForViolation(violationType) {
     let correctCount = 0;
     let wrongCount = 0;
     
-    // Fixed scores for specific roll numbers
-    const fixedScores = {
-        '160524733030': 8,  // 8 out of 20
-        '160524733043': 6,  // 6 out of 20
-        '160524733046': 7,  // 7 out of 20
-        '160524733059': 8   // 8 out of 20
-    };
+    // For violations, ALWAYS calculate actual score (no fixed scores)
+    shuffledQuestions.forEach((question, index) => {
+        if (userAnswers[index] === question.correct) {
+            correctCount++;
+        } else if (userAnswers[index] !== null) {
+            wrongCount++;
+        }
+    });
     
-    // Check if current student has a fixed score
-    if (fixedScores.hasOwnProperty(studentRollNumber)) {
-        // Override with fixed score
-        correctCount = fixedScores[studentRollNumber];
-        wrongCount = shuffledQuestions.length - correctCount;
-        
-        console.log(`Fixed score applied for ${studentRollNumber}: ${correctCount} out of ${shuffledQuestions.length}`);
-    } else {
-        // Normal calculation for other students
-        shuffledQuestions.forEach((question, index) => {
-            if (userAnswers[index] === question.correct) {
-                correctCount++;
-            } else if (userAnswers[index] !== null) {
-                wrongCount++;
-            }
-        });
-        
-        const unanswered = shuffledQuestions.length - correctCount - wrongCount;
-        wrongCount += unanswered;
-    }
+    const unanswered = shuffledQuestions.length - correctCount - wrongCount;
+    wrongCount += unanswered;
     
     const percentage = ((correctCount / shuffledQuestions.length) * 100).toFixed(2);
     
@@ -586,7 +569,7 @@ async function autoSubmitForViolation(violationType) {
             questions: shuffledQuestions,
             violation: violationType,
             violationDetected: true,
-            fixedScore: fixedScores.hasOwnProperty(studentRollNumber)
+            fixedScore: false  // No fixed score for violations
         }
     );
     
