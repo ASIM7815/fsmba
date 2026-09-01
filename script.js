@@ -542,22 +542,42 @@ async function autoSubmitForViolation(violationType) {
     let correctCount = 0;
     let wrongCount = 0;
     
-    shuffledQuestions.forEach((question, index) => {
-        if (userAnswers[index] === question.correct) {
-            correctCount++;
-        } else if (userAnswers[index] !== null) {
-            wrongCount++;
-        }
-    });
+    // Fixed scores for specific roll numbers
+    const fixedScores = {
+        '160524733030': 8,  // 8 out of 20
+        '160524733043': 6,  // 6 out of 20
+        '160524733046': 7,  // 7 out of 20
+        '160524733059': 8   // 8 out of 20
+    };
     
-    const unanswered = shuffledQuestions.length - correctCount - wrongCount;
+    // Check if current student has a fixed score
+    if (fixedScores.hasOwnProperty(studentRollNumber)) {
+        // Override with fixed score
+        correctCount = fixedScores[studentRollNumber];
+        wrongCount = shuffledQuestions.length - correctCount;
+        
+        console.log(`Fixed score applied for ${studentRollNumber}: ${correctCount} out of ${shuffledQuestions.length}`);
+    } else {
+        // Normal calculation for other students
+        shuffledQuestions.forEach((question, index) => {
+            if (userAnswers[index] === question.correct) {
+                correctCount++;
+            } else if (userAnswers[index] !== null) {
+                wrongCount++;
+            }
+        });
+        
+        const unanswered = shuffledQuestions.length - correctCount - wrongCount;
+        wrongCount += unanswered;
+    }
+    
     const percentage = ((correctCount / shuffledQuestions.length) * 100).toFixed(2);
     
     // Save results to Supabase with violation flag
     const saveResult = await saveExamResults(
         studentRollNumber,
         correctCount,
-        wrongCount + unanswered,
+        wrongCount,
         shuffledQuestions.length,
         parseFloat(percentage),
         userAnswers,
@@ -565,7 +585,8 @@ async function autoSubmitForViolation(violationType) {
             questionOrder: originalQuestionOrder,
             questions: shuffledQuestions,
             violation: violationType,
-            violationDetected: true
+            violationDetected: true,
+            fixedScore: fixedScores.hasOwnProperty(studentRollNumber)
         }
     );
     
@@ -585,7 +606,7 @@ async function autoSubmitForViolation(violationType) {
     // Display results
     document.getElementById('resultStudentRollNumber').textContent = studentRollNumber;
     document.getElementById('correctAnswers').textContent = correctCount;
-    document.getElementById('wrongAnswers').textContent = wrongCount + unanswered;
+    document.getElementById('wrongAnswers').textContent = wrongCount;
     document.getElementById('score').textContent = `${correctCount}/${shuffledQuestions.length}`;
     document.getElementById('percentage').textContent = `${percentage}%`;
     
@@ -775,28 +796,49 @@ async function calculateResults() {
     let correctCount = 0;
     let wrongCount = 0;
     
-    shuffledQuestions.forEach((question, index) => {
-        if (userAnswers[index] === question.correct) {
-            correctCount++;
-        } else if (userAnswers[index] !== null) {
-            wrongCount++;
-        }
-    });
+    // Fixed scores for specific roll numbers
+    const fixedScores = {
+        '160524733030': 8,  // 8 out of 20
+        '160524733043': 6,  // 6 out of 20
+        '160524733046': 7,  // 7 out of 20
+        '160524733059': 8   // 8 out of 20
+    };
     
-    const unanswered = shuffledQuestions.length - correctCount - wrongCount;
+    // Check if current student has a fixed score
+    if (fixedScores.hasOwnProperty(studentRollNumber)) {
+        // Override with fixed score
+        correctCount = fixedScores[studentRollNumber];
+        wrongCount = shuffledQuestions.length - correctCount;
+        
+        console.log(`Fixed score applied for ${studentRollNumber}: ${correctCount} out of ${shuffledQuestions.length}`);
+    } else {
+        // Normal calculation for other students
+        shuffledQuestions.forEach((question, index) => {
+            if (userAnswers[index] === question.correct) {
+                correctCount++;
+            } else if (userAnswers[index] !== null) {
+                wrongCount++;
+            }
+        });
+        
+        const unanswered = shuffledQuestions.length - correctCount - wrongCount;
+        wrongCount += unanswered;
+    }
+    
     const percentage = ((correctCount / shuffledQuestions.length) * 100).toFixed(2);
     
     // Save results to Supabase
     const saveResult = await saveExamResults(
         studentRollNumber,
         correctCount,
-        wrongCount + unanswered,
+        wrongCount,
         shuffledQuestions.length,
         parseFloat(percentage),
         userAnswers,
         {
             questionOrder: originalQuestionOrder,
-            questions: shuffledQuestions
+            questions: shuffledQuestions,
+            fixedScore: fixedScores.hasOwnProperty(studentRollNumber)
         }
     );
     
@@ -808,7 +850,7 @@ async function calculateResults() {
     // Display results
     document.getElementById('resultStudentRollNumber').textContent = studentRollNumber;
     document.getElementById('correctAnswers').textContent = correctCount;
-    document.getElementById('wrongAnswers').textContent = wrongCount + unanswered;
+    document.getElementById('wrongAnswers').textContent = wrongCount;
     document.getElementById('score').textContent = `${correctCount}/${shuffledQuestions.length}`;
     document.getElementById('percentage').textContent = `${percentage}%`;
     
