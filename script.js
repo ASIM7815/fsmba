@@ -332,8 +332,8 @@ async function proceedToInstructions() {
             // AIDS: Use same CSE questions (60 total, 20 random)
             baseQuestions = selectCSEExamQuestions();
         } else if (validation.examType === 'THIRDCSE') {
-            // 3rd Year CSE: Use same CSE questions (60 total, 20 random)
-            baseQuestions = selectCSEExamQuestions();
+            // 3rd Year CSE: Use HTML/CSS/JS questions (200 total, 20 random)
+            baseQuestions = selectThirdCSEExamQuestions();
         } else {
             showErrorModal('Exam type not recognized. Please contact administrator.');
             return;
