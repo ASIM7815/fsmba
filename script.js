@@ -302,6 +302,28 @@ async function proceedToInstructions() {
             showErrorModal('You have already completed this exam. You cannot take it again.');
             return;
         }
+        
+        // For THIRDIT: Check for active session on another device
+        if (validation.examType === 'THIRDIT') {
+            const sessionCheck = await checkActiveSession(rollNumberInput, codeInput);
+            if (sessionCheck.hasActiveSession) {
+                const currentDevice = generateDeviceFingerprint();
+                if (sessionCheck.deviceFingerprint !== currentDevice) {
+                    showErrorModal('This exam is already in progress on another device. Only one device is allowed per student. Please complete or wait for the previous session to expire.');
+                    return;
+                }
+            }
+            
+            // Create active session for this device
+            const sessionCreate = await createActiveSession(rollNumberInput, codeInput);
+            if (!sessionCreate.success) {
+                showErrorModal('Unable to start exam session. Please try again or contact administrator.');
+                return;
+            }
+            
+            // Store exam start time
+            window.examStartTime = new Date().toISOString();
+        }
 
         studentRollNumber = rollNumberInput;
         uniqueCode = codeInput;
@@ -334,6 +356,9 @@ async function proceedToInstructions() {
         } else if (validation.examType === 'THIRDCSE') {
             // 3rd Year CSE: Use HTML/CSS/JS questions (200 total, 20 random)
             baseQuestions = selectThirdCSEExamQuestions();
+        } else if (validation.examType === 'THIRDIT') {
+            // 3rd Year IT: Use HTML/CSS/JS questions (200 total, 25 random)
+            baseQuestions = selectThirdITExamQuestions();
         } else {
             showErrorModal('Exam type not recognized. Please contact administrator.');
             return;

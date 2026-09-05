@@ -73,6 +73,13 @@ function detectExamType(uniqueCode) {
             studentsTable: 'thirdcse_students',
             resultsTable: 'thirdcse_exam_results'
         };
+    } else if (uniqueCode === 'fs4it02') {
+        return {
+            type: 'THIRDIT',
+            studentsTable: 'thirditrollno',
+            resultsTable: 'thirdit_exam_results',
+            sessionsTable: 'thirdit_active_sessions'
+        };
     }
     return null;
 }
@@ -167,6 +174,14 @@ async function saveExamResults(rollNumber, correctAnswers, wrongAnswers, totalQu
             violation_type: violationType
         };
         
+        // Add device tracking for THIRDIT
+        if (examType.type === 'THIRDIT') {
+            resultData.device_fingerprint = generateDeviceFingerprint();
+            resultData.browser_info = getBrowserInfo();
+            resultData.exam_started_at = window.examStartTime || new Date().toISOString();
+            resultData.exam_completed_at = new Date().toISOString();
+        }
+        
         // Add additional_data with all exam information
         resultData.additional_data = {
             score: `${correctAnswers}/${totalQuestions}`,
@@ -182,6 +197,11 @@ async function saveExamResults(rollNumber, correctAnswers, wrongAnswers, totalQu
         if (error) {
             console.error('Error saving results:', error);
             return { success: false, error: error.message };
+        }
+        
+        // Deactivate session for THIRDIT
+        if (examType.type === 'THIRDIT') {
+            await deactivateSession(rollNumber, window.currentUniqueCode);
         }
 
         return { success: true, data };
@@ -221,5 +241,174 @@ async function checkExamStatus(rollNumber, uniqueCode) {
     } catch (err) {
         console.error('Exception checking exam status:', err);
         return { alreadyTaken: false, error: err.message };
+    }
+}
+
+// Generate device fingerprint (simple implementation)
+function generateDeviceFingerprint() {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.textBaseline = 'top';
+    ctx.font = '14px Arial';
+    ctx.fillText('Device', 2, 2);
+    const canvasData = canvas.toDataURL();
+    
+    const fingerprint = {
+        userAgent: navigator.userAgent,
+        language: navigator.language,
+        platform: navigator.platform,
+        screen: `${screen.width}x${screen.height}x${screen.colorDepth}`,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        canvas: canvasData.substring(0, 100), // First 100 chars of canvas fingerprint
+        memory: navigator.deviceMemory || 'unknown',
+        hardwareConcurrency: navigator.hardwareConcurrency || 'unknown'
+    };
+    
+    // Create a simple hash
+    const fingerprintString = JSON.stringify(fingerprint);
+    let hash = 0;
+    for (let i = 0; i < fingerprintString.length; i++) {
+        const char = fingerprintString.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+    }
+    
+    return Math.abs(hash).toString(36);
+}
+
+// Get browser info
+function getBrowserInfo() {
+    return {
+        userAgent: navigator.userAgent,
+        language: navigator.language,
+        platform: navigator.platform,
+        screen: {
+            width: screen.width,
+            height: screen.height,
+            colorDepth: screen.colorDepth
+        },
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        online: navigator.onLine,
+        cookieEnabled: navigator.cookieEnabled,
+        memory: navigator.deviceMemory || 'unknown',
+        cores: navigator.hardwareConcurrency || 'unknown'
+    };
+}
+
+// Check if student has an active session (for THIRDIT only)
+async function checkActiveSession(rollNumber, uniqueCode) {
+    if (!supabaseClient) {
+        console.error('Supabase client not initialized');
+        return { hasActiveSession: false, error: 'Database connection not available' };
+    }
+    
+    const examType = detectExamType(uniqueCode);
+    if (!examType || examType.type !== 'THIRDIT') {
+        // Only THIRDIT has session tracking
+        return { hasActiveSession: false };
+    }
+    
+    try {
+        const { data, error } = await supabaseClient
+            .from(examType.sessionsTable)
+            .select('*')
+            .eq('roll_number', rollNumber)
+            .eq('is_active', true);
+
+        if (error) {
+            console.error('Error checking active session:', error);
+            // If table doesn't exist or other error, just allow login
+            return { hasActiveSession: false };
+        }
+
+        // Check if any active sessions exist
+        if (data && data.length > 0) {
+            return { 
+                hasActiveSession: true, 
+                sessionData: data[0],
+                deviceFingerprint: data[0].device_fingerprint
+            };
+        }
+
+        return { hasActiveSession: false };
+    } catch (err) {
+        console.error('Exception checking active session:', err);
+        // On exception, allow login
+        return { hasActiveSession: false };
+    }
+}
+
+// Create active session (for THIRDIT only)
+async function createActiveSession(rollNumber, uniqueCode) {
+    if (!supabaseClient) {
+        console.error('Supabase client not initialized');
+        return { success: false, error: 'Database connection not available' };
+    }
+    
+    const examType = detectExamType(uniqueCode);
+    if (!examType || examType.type !== 'THIRDIT') {
+        return { success: true }; // Skip for other exam types
+    }
+    
+    try {
+        const deviceFingerprint = generateDeviceFingerprint();
+        const browserInfo = getBrowserInfo();
+        
+        const sessionData = {
+            roll_number: rollNumber,
+            device_fingerprint: deviceFingerprint,
+            browser_info: browserInfo,
+            session_started_at: new Date().toISOString(),
+            last_activity_at: new Date().toISOString(),
+            is_active: true
+        };
+        
+        // Try to insert, if duplicate exists, update it
+        const { data, error } = await supabaseClient
+            .from(examType.sessionsTable)
+            .upsert(sessionData, {
+                onConflict: 'roll_number',
+                ignoreDuplicates: false
+            });
+
+        if (error) {
+            console.error('Error creating active session:', error);
+            return { success: false, error: error.message };
+        }
+
+        return { success: true, deviceFingerprint, data };
+    } catch (err) {
+        console.error('Exception creating active session:', err);
+        return { success: false, error: err.message };
+    }
+}
+
+// Deactivate session when exam is completed (for THIRDIT only)
+async function deactivateSession(rollNumber, uniqueCode) {
+    if (!supabaseClient) {
+        console.error('Supabase client not initialized');
+        return { success: false, error: 'Database connection not available' };
+    }
+    
+    const examType = detectExamType(uniqueCode);
+    if (!examType || examType.type !== 'THIRDIT') {
+        return { success: true }; // Skip for other exam types
+    }
+    
+    try {
+        const { data, error } = await supabaseClient
+            .from(examType.sessionsTable)
+            .update({ is_active: false })
+            .eq('roll_number', rollNumber);
+
+        if (error) {
+            console.error('Error deactivating session:', error);
+            return { success: false, error: error.message };
+        }
+
+        return { success: true, data };
+    } catch (err) {
+        console.error('Exception deactivating session:', err);
+        return { success: false, error: err.message };
     }
 }
