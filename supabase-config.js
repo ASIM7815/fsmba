@@ -194,7 +194,6 @@ async function validateCredentials(rollNumber, uniqueCode) {
         };
     }
 
-    // Detect which exam system to use
     const examType = detectExamType(uniqueCode);
     if (!examType) {
         return {
@@ -203,13 +202,54 @@ async function validateCredentials(rollNumber, uniqueCode) {
         };
     }
 
+    // Map FFF exams to their RPC functions
+    const rpcMap = {
+        'FFECE': 'check_ffece_exam_eligibility',
+        'FFFCSE': 'check_fffcse_exam_eligibility',
+        'FFFECE': 'check_fffece_exam_eligibility',
+        'FFFAIDS': 'check_fffaids_exam_eligibility',
+        'FFFIT': 'check_fffit_exam_eligibility',
+        'FFFCIVIL': 'check_fffcivil_exam_eligibility'
+    };
+
+    const rpcFunc = rpcMap[examType.type];
+
+    // Use secure RPC for FFF exams
+    if (rpcFunc) {
+        try {
+            const { data, error } = await supabaseClient.rpc(rpcFunc, {
+                p_roll_number: rollNumber,
+                p_unique_code: uniqueCode
+            });
+
+            if (error) {
+                console.error('RPC error:', error);
+                return { valid: false, error: 'Authentication error. Please try again.' };
+            }
+
+            const result = Array.isArray(data) ? data[0] : data;
+
+            if (!result || !result.eligible) {
+                return {
+                    valid: false,
+                    error: result?.message || 'Invalid credentials or exam already completed.',
+                    alreadyTaken: result?.already_taken || false
+                };
+            }
+
+            return { valid: true, error: null, examType: examType.type, alreadyTaken: false };
+        } catch (err) {
+            console.error('Exception calling RPC:', err);
+            return { valid: false, error: 'Connection error. Please try again.' };
+        }
+    }
+
+    // Original validation for non-FFF exams
     try {
-        // Add timeout to prevent hanging
         const timeoutPromise = new Promise((_, reject) => {
-            setTimeout(() => reject(new Error('Connection timeout')), 10000); // 10 second timeout
+            setTimeout(() => reject(new Error('Connection timeout')), 10000);
         });
 
-        // Query the appropriate students table
         const queryPromise = supabaseClient
             .from(examType.studentsTable)
             .select('*')
@@ -221,7 +261,6 @@ async function validateCredentials(rollNumber, uniqueCode) {
         const { data, error } = await Promise.race([queryPromise, timeoutPromise]);
 
         if (error) {
-            // If no matching record found
             if (error.code === 'PGRST116') {
                 return {
                     valid: false,
@@ -235,25 +274,13 @@ async function validateCredentials(rollNumber, uniqueCode) {
             };
         }
 
-        // Valid credentials found
-        return {
-            valid: true,
-            error: null,
-            student: data,
-            examType: examType.type
-        };
+        return { valid: true, error: null, student: data, examType: examType.type };
     } catch (err) {
         console.error('Exception validating credentials:', err);
         if (err.message === 'Connection timeout') {
-            return {
-                valid: false,
-                error: 'Connection timeout. Please check your internet connection and try again.'
-            };
+            return { valid: false, error: 'Connection timeout. Please check your internet connection and try again.' };
         }
-        return {
-            valid: false,
-            error: 'Network error. Please check your internet connection and try again.'
-        };
+        return { valid: false, error: 'Network error. Please check your internet connection and try again.' };
     }
 }
 
@@ -264,19 +291,67 @@ async function saveExamResults(rollNumber, correctAnswers, wrongAnswers, totalQu
         return { success: true, warning: 'Results not saved - Supabase not configured' };
     }
     
-    // Detect exam type from global variable (set during login)
     const examType = window.currentExamType || detectExamType(window.currentUniqueCode);
     if (!examType) {
         console.error('Exam type not detected');
         return { success: true, warning: 'Results not saved - exam type unknown' };
     }
     
+    const violationDetected = shuffledQuestions.violationDetected || false;
+    const violationType = shuffledQuestions.violation || null;
+    
+    // Map FFF exams to their RPC submit functions
+    const submitRpcMap = {
+        'FFECE': 'submit_ffece_exam_result',
+        'FFFCSE': 'submit_fffcse_exam_result',
+        'FFFECE': 'submit_fffece_exam_result',
+        'FFFAIDS': 'submit_fffaids_exam_result',
+        'FFFIT': 'submit_fffit_exam_result',
+        'FFFCIVIL': 'submit_fffcivil_exam_result'
+    };
+
+    const submitRpc = submitRpcMap[examType.type];
+
+    // Use secure RPC for FFF exams
+    if (submitRpc) {
+        try {
+            const { data, error } = await supabaseClient.rpc(submitRpc, {
+                p_roll_number: rollNumber,
+                p_correct_answers: correctAnswers,
+                p_wrong_answers: wrongAnswers,
+                p_total_questions: totalQuestions,
+                p_percentage: percentage,
+                p_user_answers: userAnswers,
+                p_additional_data: {
+                    score: `${correctAnswers}/${totalQuestions}`,
+                    shuffled_questions: shuffledQuestions,
+                    exam_date: new Date().toISOString(),
+                    exam_completed: true
+                },
+                p_violation_type: violationType,
+                p_violation_detected: violationDetected
+            });
+
+            if (error) {
+                console.error('RPC submit error:', error);
+                return { success: false, error: error.message };
+            }
+
+            const result = Array.isArray(data) ? data[0] : data;
+            
+            if (!result || !result.success) {
+                return { success: false, error: result?.message || 'Failed to submit exam' };
+            }
+
+            return { success: true, data: result };
+        } catch (err) {
+            console.error('Exception submitting via RPC:', err);
+            return { success: false, error: 'Failed to submit exam results' };
+        }
+    }
+
+    // Original submission for non-FFF exams
     try {
-        // Extract violation information if present
-        const violationDetected = shuffledQuestions.violationDetected || false;
-        const violationType = shuffledQuestions.violation || null;
-        
-        // Prepare data object based on table schema
         const resultData = {
             roll_number: rollNumber,
             correct_answers: correctAnswers,
@@ -288,8 +363,6 @@ async function saveExamResults(rollNumber, correctAnswers, wrongAnswers, totalQu
             violation_type: violationType
         };
         
-        // Add device tracking for THIRDIT, FS1CSE, FS1AIDS, FS1IT, and FS1CIVIL only
-        // (FCSE, FAIDS, FIT, FCIVIL do NOT have device tracking columns)
         if (examType.type === 'THIRDIT' || examType.type === 'FS1CSE' || examType.type === 'FS1AIDS' || examType.type === 'FS1IT' || examType.type === 'FS1CIVIL') {
             if (typeof generateDeviceFingerprint !== 'undefined' && typeof getBrowserInfo !== 'undefined') {
                 resultData.device_fingerprint = generateDeviceFingerprint();
@@ -299,7 +372,6 @@ async function saveExamResults(rollNumber, correctAnswers, wrongAnswers, totalQu
             }
         }
         
-        // Add additional_data with all exam information
         resultData.additional_data = {
             score: `${correctAnswers}/${totalQuestions}`,
             shuffled_questions: shuffledQuestions,
@@ -313,12 +385,9 @@ async function saveExamResults(rollNumber, correctAnswers, wrongAnswers, totalQu
 
         if (error) {
             console.error('Error saving results to Supabase:', error);
-            // Don't fail the exam - just log the error
             return { success: true, warning: 'Results could not be saved to database', error: error.message };
         }
         
-        // Deactivate session for THIRDIT, FS1CSE, FS1AIDS, FS1IT, and FS1CIVIL only
-        // (FCSE, FAIDS, FIT, FCIVIL do NOT have session tracking)
         if (examType.type === 'THIRDIT' || examType.type === 'FS1CSE' || examType.type === 'FS1AIDS' || examType.type === 'FS1IT' || examType.type === 'FS1CIVIL') {
             if (typeof deactivateSession !== 'undefined') {
                 await deactivateSession(rollNumber, window.currentUniqueCode);
@@ -328,7 +397,6 @@ async function saveExamResults(rollNumber, correctAnswers, wrongAnswers, totalQu
         return { success: true, data };
     } catch (err) {
         console.error('Exception saving results:', err);
-        // Don't fail the exam - just log the error
         return { success: true, warning: 'Results could not be saved', error: err.message };
     }
 }
