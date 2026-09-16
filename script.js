@@ -402,16 +402,48 @@ async function proceedToInstructions() {
             baseQuestions = selectFS1CIVILExamQuestions();
         } else if (validation.examType === 'FFCSE') {
             // FFCSE: Use Linux questions (100 total, 25 random)
-            baseQuestions = selectLinuxExamQuestions();
+            console.log('🐧 Loading Linux questions for FFCSE');
+            if (typeof selectLinuxExamQuestions !== 'undefined') {
+                baseQuestions = selectLinuxExamQuestions();
+                console.log('✅ Linux questions loaded:', baseQuestions.length);
+            } else {
+                console.error('❌ selectLinuxExamQuestions not found!');
+                showErrorModal('Linux questions not loaded. Please refresh the page.');
+                return;
+            }
         } else if (validation.examType === 'FFIT') {
             // FFIT: Use Linux questions (100 total, 25 random)
-            baseQuestions = selectLinuxExamQuestions();
+            console.log('🐧 Loading Linux questions for FFIT');
+            if (typeof selectLinuxExamQuestions !== 'undefined') {
+                baseQuestions = selectLinuxExamQuestions();
+                console.log('✅ Linux questions loaded:', baseQuestions.length);
+            } else {
+                console.error('❌ selectLinuxExamQuestions not found!');
+                showErrorModal('Linux questions not loaded. Please refresh the page.');
+                return;
+            }
         } else if (validation.examType === 'FFAIDS') {
             // FFAIDS: Use Linux questions (100 total, 25 random)
-            baseQuestions = selectLinuxExamQuestions();
+            console.log('🐧 Loading Linux questions for FFAIDS');
+            if (typeof selectLinuxExamQuestions !== 'undefined') {
+                baseQuestions = selectLinuxExamQuestions();
+                console.log('✅ Linux questions loaded:', baseQuestions.length);
+            } else {
+                console.error('❌ selectLinuxExamQuestions not found!');
+                showErrorModal('Linux questions not loaded. Please refresh the page.');
+                return;
+            }
         } else if (validation.examType === 'FFECE') {
             // FFECE: Use Linux questions (100 total, 25 random)
-            baseQuestions = selectLinuxExamQuestions();
+            console.log('🐧 Loading Linux questions for FFECE');
+            if (typeof selectLinuxExamQuestions !== 'undefined') {
+                baseQuestions = selectLinuxExamQuestions();
+                console.log('✅ Linux questions loaded:', baseQuestions.length);
+            } else {
+                console.error('❌ selectLinuxExamQuestions not found!');
+                showErrorModal('Linux questions not loaded. Please refresh the page.');
+                return;
+            }
         } else {
             showErrorModal('Exam type not recognized. Please contact administrator.');
             return;
