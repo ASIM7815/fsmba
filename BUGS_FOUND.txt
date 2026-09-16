@@ -1,0 +1,92 @@
+🐛 COMPLETE BUG AUDIT - FSMBA EXAM SYSTEM
+=========================================
+
+✅ CODE AUDIT COMPLETE - FOUND 2 CRITICAL BUGS
+
+BUG #1: DUPLICATE UNIQUE CODE MAPPINGS (CRITICAL)
+--------------------------------------------------
+Location: supabase-config.js, detectExamType() function
+
+Problem:
+- 'fscivil' appears TWICE (lines 46 & 104)
+  Line 46: Returns CIVIL tables (old system)
+  Line 104: Returns FS1CIVIL tables (new system) - NEVER REACHED!
+
+- 'fsit' appears TWICE (lines 58 & 97)
+  Line 58: Returns IT tables (old system)
+  Line 97: Returns FS1IT tables (new system) - NEVER REACHED!
+
+Impact:
+When students login with 'fscivil' or 'fsit', the code uses the FIRST match,
+which points to old table names that don't exist!
+
+Fix:
+Remove lines 46-51 (old 'fscivil' mapping)
+Remove lines 58-63 (old 'fsit' mapping)
+
+
+BUG #2: TABLES CREATED IN WRONG SUPABASE INSTANCE
+--------------------------------------------------
+Problem:
+You created F-prefixed tables (FCSE, FAIDS, FIT, FCIVIL) and
+FF-prefixed tables (FFCSE, FFIT, FFAIDS, FFECE) in the
+UNHEALTHY Supabase instance (ncwugityxjyfpreccvsp).
+
+The code points to the HEALTHY instance (wofjapxwmowdhxchcjqs),
+so queries fail because tables don't exist there!
+
+Fix:
+Run ALL 8 SQL files in https://wofjapxwmowdhxchcjqs.supabase.co:
+1. CREATE_FCSE_TABLES.sql
+2. CREATE_FAIDS_TABLES.sql
+3. CREATE_FIT_TABLES.sql
+4. CREATE_FCIVIL_TABLES.sql
+5. CREATE_FFCSE_TABLES.sql
+6. CREATE_FFIT_TABLES.sql
+7. CREATE_FFAIDS_TABLES.sql
+8. CREATE_FFECE_TABLES.sql
+
+
+SUPABASE CONFIGURATION (VERIFIED CORRECT)
+------------------------------------------
+✅ supabase-config.js: wofjapxwmowdhxchcjqs (correct)
+✅ test-supabase.html: wofjapxwmowdhxchcjqs (correct)
+✅ test-supabase.js: wofjapxwmowdhxchcjqs (correct)
+⚠️  .env: needs manual update (gitignored)
+⚠️  Vercel env vars: needs manual update in dashboard
+
+
+ALL UNIQUE CODES (AFTER FIX)
+-----------------------------
+fsmba2026 → FSMBA
+fsmba03 → MBA_REGULAR
+fsmba100 → STOCK_MARKET
+fscse01 → CSE
+fsece → ECE
+fsaids → AIDS
+fs4cse02 → THIRDCSE
+fs4it02 → THIRDIT
+fs1cse → FS1CSE
+fs1aids → FS1AIDS
+fsit → FS1IT (after removing duplicate)
+fscivil → FS1CIVIL (after removing duplicate)
+fcse → FCSE (new)
+faids → FAIDS (new)
+fit → FIT (new)
+fcivil → FCIVIL (new)
+ffcse → FFCSE (new)
+ffit → FFIT (new)
+ffaids → FFAIDS (new)
+ffece → FFECE (new)
+
+
+IMMEDIATE ACTION REQUIRED
+--------------------------
+1. Remove duplicate mappings from supabase-config.js
+2. Run 8 SQL files in correct Supabase
+3. Update Vercel environment variables
+4. Redeploy and test
+
+Expected Result:
+All login attempts should work once tables exist and
+duplicates are removed.

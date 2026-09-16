@@ -43,23 +43,11 @@ function detectExamType(uniqueCode) {
             studentsTable: 'cse_students',
             resultsTable: 'cse_exam_results'
         };
-    } else if (uniqueCode === 'fscivil') {
-        return {
-            type: 'CIVIL',
-            studentsTable: 'civil_students',
-            resultsTable: 'civil_exam_results'
-        };
     } else if (uniqueCode === 'fsece') {
         return {
             type: 'ECE',
             studentsTable: 'ece_students',
             resultsTable: 'ece_exam_results'
-        };
-    } else if (uniqueCode === 'fsit') {
-        return {
-            type: 'IT',
-            studentsTable: 'it_students',
-            resultsTable: 'it_exam_results'
         };
     } else if (uniqueCode === 'fsaids') {
         return {
