@@ -22,7 +22,7 @@ The code tries to query:
 - `ffece_students`
 
 But these tables were created in the **WRONG** Supabase instance:
-- ❌ Created in: `ncwugityxjyfpreccvsp` (unhealthy/dead instance)
+- ❌ Created in: `wofjapxwmowdhxchcjqs` (unhealthy/dead instance)
 - ✅ Code points to: `wofjapxwmowdhxchcjqs` (healthy instance)
 
 ### 3. **Poor Error Handling**

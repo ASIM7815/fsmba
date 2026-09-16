@@ -61,7 +61,7 @@ Your portal now supports **FOUR independent exam systems**:
 
 **File:** `CREATE_CSE_TABLES.sql`
 
-1. Open Supabase: https://ncwugityxjyfpreccvsp.supabase.co
+1. Open Supabase: https://wofjapxwmowdhxchcjqs.supabase.co
 2. Go to SQL Editor
 3. Run the complete script
 4. Verify 240 students added

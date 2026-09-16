@@ -348,7 +348,7 @@ Display results to student
 ### Immediate (Enable Civil, ECE, IT):
 
 1. **Login to Supabase:**
-   - URL: https://ncwugityxjyfpreccvsp.supabase.co
+   - URL: https://wofjapxwmowdhxchcjqs.supabase.co
    - Go to SQL Editor
 
 2. **Run SQL files in order:**

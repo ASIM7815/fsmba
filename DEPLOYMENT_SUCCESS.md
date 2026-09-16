@@ -141,7 +141,7 @@ Before sharing with students, test:
 
 1. **Go to Supabase**:
    - URL: https://supabase.com
-   - Project: `ncwugityxjyfpreccvsp`
+   - Project: `wofjapxwmowdhxchcjqs`
 
 2. **Open Table Editor**:
    - Click "Table Editor" in left sidebar

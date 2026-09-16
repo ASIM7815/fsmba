@@ -56,14 +56,14 @@ Only these 19 students can access the exam:
 
 View exam submissions in real-time:
 1. Go to https://supabase.com
-2. Select your project: `ncwugityxjyfpreccvsp`
+2. Select your project: `wofjapxwmowdhxchcjqs`
 3. Table Editor → `exam_results`
 4. See all student scores, answers, and timestamps
 
 ## ⚙️ Environment Variables (Optional)
 
 Your Supabase credentials are already configured in the code:
-- ✅ URL: `https://ncwugityxjyfpreccvsp.supabase.co`
+- ✅ URL: `https://wofjapxwmowdhxchcjqs.supabase.co`
 - ✅ Anon Key: Already in `supabase-config.js`
 
 No environment variables needed for Vercel deployment!

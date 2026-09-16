@@ -139,7 +139,7 @@ if (validation.examType === 'ECE') {
 ## 🚀 SETUP INSTRUCTIONS
 
 ### Step 1: Run SQL in Supabase
-1. Go to: https://ncwugityxjyfpreccvsp.supabase.co
+1. Go to: https://wofjapxwmowdhxchcjqs.supabase.co
 2. Click **SQL Editor**
 3. Open file: `CREATE_ECE_TABLES.sql`
 4. Click **Run**

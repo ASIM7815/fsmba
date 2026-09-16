@@ -75,7 +75,7 @@ Only the following roll numbers can access the exam:
 ## 🗄️ Database Setup
 
 ### Step 1: Create Students Table
-1. Go to your Supabase project: https://ncwugityxjyfpreccvsp.supabase.co
+1. Go to your Supabase project: https://wofjapxwmowdhxchcjqs.supabase.co
 2. Navigate to the SQL Editor
 3. Run the SQL from `CREATE_STUDENTS_TABLE.sql` to:
    - Create the `students` table

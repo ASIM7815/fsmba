@@ -31,7 +31,7 @@ This script creates:
 ## 🚀 Step 1: Run SQL Script in Supabase
 
 ### Instructions:
-1. Open Supabase: https://ncwugityxjyfpreccvsp.supabase.co
+1. Open Supabase: https://wofjapxwmowdhxchcjqs.supabase.co
 2. Click **SQL Editor** in left sidebar
 3. Click **New Query**
 4. Open file: `CREATE_MBA_REGULAR_TABLES.sql`

@@ -58,7 +58,7 @@ Your exam portal now supports **TWO independent exam systems** in a single deplo
 
 ### Step 1: Run SQL Scripts in Supabase ⚡
 
-Open: https://ncwugityxjyfpreccvsp.supabase.co
+Open: https://wofjapxwmowdhxchcjqs.supabase.co
 
 #### A. Add MBA Regular Students (if not done)
 ```sql

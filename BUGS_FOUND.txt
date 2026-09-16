@@ -30,7 +30,7 @@ BUG #2: TABLES CREATED IN WRONG SUPABASE INSTANCE
 Problem:
 You created F-prefixed tables (FCSE, FAIDS, FIT, FCIVIL) and
 FF-prefixed tables (FFCSE, FFIT, FFAIDS, FFECE) in the
-UNHEALTHY Supabase instance (ncwugityxjyfpreccvsp).
+UNHEALTHY Supabase instance (wofjapxwmowdhxchcjqs).
 
 The code points to the HEALTHY instance (wofjapxwmowdhxchcjqs),
 so queries fail because tables don't exist there!

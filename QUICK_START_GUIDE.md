@@ -5,7 +5,7 @@
 ### What You Need to Do NOW:
 
 **1. Run the SQL Script in Supabase** ⚡
-   - Open: https://ncwugityxjyfpreccvsp.supabase.co
+   - Open: https://wofjapxwmowdhxchcjqs.supabase.co
    - Go to: **SQL Editor** (left sidebar)
    - Click: **New Query**
    - Copy and paste the content from: `ADD_NEW_STUDENTS.sql`

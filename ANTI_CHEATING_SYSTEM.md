@@ -127,7 +127,7 @@ CREATE TABLE exam_results (
 ## Admin Review
 
 ### Checking Violations in Supabase
-1. Open Supabase Dashboard: https://ncwugityxjyfpreccvsp.supabase.co
+1. Open Supabase Dashboard: https://wofjapxwmowdhxchcjqs.supabase.co
 2. Navigate to Table Editor → exam_results
 3. Filter by `violation_detected = true`
 4. Review `violation_type` column for details
