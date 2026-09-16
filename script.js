@@ -308,7 +308,8 @@ async function proceedToInstructions() {
         }
         
         // For device tracking exams: Check for active session (non-blocking)
-        if (validation.examType === 'THIRDIT' || validation.examType === 'FS1CSE' || validation.examType === 'FS1AIDS' || validation.examType === 'FS1IT' || validation.examType === 'FS1CIVIL' || validation.examType === 'FCSE' || validation.examType === 'FAIDS' || validation.examType === 'FIT' || validation.examType === 'FCIVIL') {
+        // Only THIRDIT, FS1CSE, FS1AIDS, FS1IT, and FS1CIVIL have session tracking
+        if (validation.examType === 'THIRDIT' || validation.examType === 'FS1CSE' || validation.examType === 'FS1AIDS' || validation.examType === 'FS1IT' || validation.examType === 'FS1CIVIL') {
             // Session management for these exams (optional - don't block)
             try {
                 if (typeof checkActiveSession !== 'undefined' && typeof createActiveSession !== 'undefined') {
