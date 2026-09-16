@@ -1,8 +1,8 @@
 // Supabase Configuration
 // For production (Vercel), these will be replaced by environment variables
 // For local development, update these values directly
-let SUPABASE_URL = 'https://wofjapxwmowdhxchcjqs.supabase.co';
-let SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndvZmphcHh3bW93ZGh4Y2hjanFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk1MzU3ODksImV4cCI6MjEwNTExMTc4OX0.ESoYWOVmv-Xue3sAEN8x_SBFk14g07GlkqaNwE9fl18';
+let SUPABASE_URL = 'https://ncwugityxjyfpreccvsp.supabase.co';
+let SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5jd3VnaXR5eGp5ZnByZWNjdnNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2MzgwMDQsImV4cCI6MjEwMjIxNDAwNH0.7SqtNMBdXUgVy2hrOGmfknt8mViCAdfqZdh5bp-7HUs';
 
 // Note: In a production environment, these should ideally come from environment variables
 // But since this is a static site, we keep them here (the anon key is safe to expose)
