@@ -108,6 +108,30 @@ function detectExamType(uniqueCode) {
             resultsTable: 'fs1civil_exam_results',
             sessionsTable: 'fs1civil_active_sessions'
         };
+    } else if (uniqueCode === 'fcse') {
+        return {
+            type: 'FCSE',
+            studentsTable: 'fcse_students',
+            resultsTable: 'fcse_exam_results'
+        };
+    } else if (uniqueCode === 'faids') {
+        return {
+            type: 'FAIDS',
+            studentsTable: 'faids_students',
+            resultsTable: 'faids_exam_results'
+        };
+    } else if (uniqueCode === 'fit') {
+        return {
+            type: 'FIT',
+            studentsTable: 'fit_students',
+            resultsTable: 'fit_exam_results'
+        };
+    } else if (uniqueCode === 'fcivil') {
+        return {
+            type: 'FCIVIL',
+            studentsTable: 'fcivil_students',
+            resultsTable: 'fcivil_exam_results'
+        };
     }
     return null;
 }
@@ -202,8 +226,8 @@ async function saveExamResults(rollNumber, correctAnswers, wrongAnswers, totalQu
             violation_type: violationType
         };
         
-        // Add device tracking for THIRDIT, FS1CSE, FS1AIDS, FS1IT, and FS1CIVIL
-        if (examType.type === 'THIRDIT' || examType.type === 'FS1CSE' || examType.type === 'FS1AIDS' || examType.type === 'FS1IT' || examType.type === 'FS1CIVIL') {
+        // Add device tracking for THIRDIT, FS1CSE, FS1AIDS, FS1IT, FS1CIVIL, FCSE, FAIDS, FIT, and FCIVIL
+        if (examType.type === 'THIRDIT' || examType.type === 'FS1CSE' || examType.type === 'FS1AIDS' || examType.type === 'FS1IT' || examType.type === 'FS1CIVIL' || examType.type === 'FCSE' || examType.type === 'FAIDS' || examType.type === 'FIT' || examType.type === 'FCIVIL') {
             if (typeof generateDeviceFingerprint !== 'undefined' && typeof getBrowserInfo !== 'undefined') {
                 resultData.device_fingerprint = generateDeviceFingerprint();
                 resultData.browser_info = getBrowserInfo();
@@ -230,8 +254,8 @@ async function saveExamResults(rollNumber, correctAnswers, wrongAnswers, totalQu
             return { success: true, warning: 'Results could not be saved to database', error: error.message };
         }
         
-        // Deactivate session for THIRDIT, FS1CSE, FS1AIDS, FS1IT, and FS1CIVIL
-        if (examType.type === 'THIRDIT' || examType.type === 'FS1CSE' || examType.type === 'FS1AIDS' || examType.type === 'FS1IT' || examType.type === 'FS1CIVIL') {
+        // Deactivate session for THIRDIT, FS1CSE, FS1AIDS, FS1IT, FS1CIVIL, FCSE, FAIDS, FIT, and FCIVIL
+        if (examType.type === 'THIRDIT' || examType.type === 'FS1CSE' || examType.type === 'FS1AIDS' || examType.type === 'FS1IT' || examType.type === 'FS1CIVIL' || examType.type === 'FCSE' || examType.type === 'FAIDS' || examType.type === 'FIT' || examType.type === 'FCIVIL') {
             if (typeof deactivateSession !== 'undefined') {
                 await deactivateSession(rollNumber, window.currentUniqueCode);
             }

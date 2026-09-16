@@ -308,7 +308,7 @@ async function proceedToInstructions() {
         }
         
         // For device tracking exams: Check for active session (non-blocking)
-        if (validation.examType === 'THIRDIT' || validation.examType === 'FS1CSE' || validation.examType === 'FS1AIDS' || validation.examType === 'FS1IT' || validation.examType === 'FS1CIVIL') {
+        if (validation.examType === 'THIRDIT' || validation.examType === 'FS1CSE' || validation.examType === 'FS1AIDS' || validation.examType === 'FS1IT' || validation.examType === 'FS1CIVIL' || validation.examType === 'FCSE' || validation.examType === 'FAIDS' || validation.examType === 'FIT' || validation.examType === 'FCIVIL') {
             // Session management for these exams (optional - don't block)
             try {
                 if (typeof checkActiveSession !== 'undefined' && typeof createActiveSession !== 'undefined') {
@@ -386,6 +386,18 @@ async function proceedToInstructions() {
             baseQuestions = selectFS1ITExamQuestions();
         } else if (validation.examType === 'FS1CIVIL') {
             // FS1 CIVIL: Use same questions as FS1 CSE (100 total, 25 random)
+            baseQuestions = selectFS1CIVILExamQuestions();
+        } else if (validation.examType === 'FCSE') {
+            // FCSE: Use same C programming questions as FS1 CSE (100 total, 25 random)
+            baseQuestions = selectFS1CSEExamQuestions();
+        } else if (validation.examType === 'FAIDS') {
+            // FAIDS: Use same C programming questions as FS1 CSE (100 total, 25 random)
+            baseQuestions = selectFS1AIDSExamQuestions();
+        } else if (validation.examType === 'FIT') {
+            // FIT: Use same C programming questions as FS1 CSE (100 total, 25 random)
+            baseQuestions = selectFS1ITExamQuestions();
+        } else if (validation.examType === 'FCIVIL') {
+            // FCIVIL: Use same C programming questions as FS1 CSE (100 total, 25 random)
             baseQuestions = selectFS1CIVILExamQuestions();
         } else {
             showErrorModal('Exam type not recognized. Please contact administrator.');
