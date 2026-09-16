@@ -80,6 +80,34 @@ function detectExamType(uniqueCode) {
             resultsTable: 'thirdit_exam_results',
             sessionsTable: 'thirdit_active_sessions'
         };
+    } else if (uniqueCode === 'fs1cse') {
+        return {
+            type: 'FS1CSE',
+            studentsTable: 'fs1cse_students',
+            resultsTable: 'fs1cse_exam_results',
+            sessionsTable: 'fs1cse_active_sessions'
+        };
+    } else if (uniqueCode === 'fs1aids') {
+        return {
+            type: 'FS1AIDS',
+            studentsTable: 'fs1aids_students',
+            resultsTable: 'fs1aids_exam_results',
+            sessionsTable: 'fs1aids_active_sessions'
+        };
+    } else if (uniqueCode === 'fsit') {
+        return {
+            type: 'FS1IT',
+            studentsTable: 'fs1it_students',
+            resultsTable: 'fs1it_exam_results',
+            sessionsTable: 'fs1it_active_sessions'
+        };
+    } else if (uniqueCode === 'fscivil') {
+        return {
+            type: 'FS1CIVIL',
+            studentsTable: 'fs1civil_students',
+            resultsTable: 'fs1civil_exam_results',
+            sessionsTable: 'fs1civil_active_sessions'
+        };
     }
     return null;
 }
@@ -174,8 +202,8 @@ async function saveExamResults(rollNumber, correctAnswers, wrongAnswers, totalQu
             violation_type: violationType
         };
         
-        // Add device tracking for THIRDIT
-        if (examType.type === 'THIRDIT') {
+        // Add device tracking for THIRDIT, FS1CSE, FS1AIDS, FS1IT, and FS1CIVIL
+        if (examType.type === 'THIRDIT' || examType.type === 'FS1CSE' || examType.type === 'FS1AIDS' || examType.type === 'FS1IT' || examType.type === 'FS1CIVIL') {
             resultData.device_fingerprint = generateDeviceFingerprint();
             resultData.browser_info = getBrowserInfo();
             resultData.exam_started_at = window.examStartTime || new Date().toISOString();
@@ -199,8 +227,8 @@ async function saveExamResults(rollNumber, correctAnswers, wrongAnswers, totalQu
             return { success: false, error: error.message };
         }
         
-        // Deactivate session for THIRDIT
-        if (examType.type === 'THIRDIT') {
+        // Deactivate session for THIRDIT, FS1CSE, FS1AIDS, FS1IT, and FS1CIVIL
+        if (examType.type === 'THIRDIT' || examType.type === 'FS1CSE' || examType.type === 'FS1AIDS' || examType.type === 'FS1IT' || examType.type === 'FS1CIVIL') {
             await deactivateSession(rollNumber, window.currentUniqueCode);
         }
 
@@ -303,8 +331,8 @@ async function checkActiveSession(rollNumber, uniqueCode) {
     }
     
     const examType = detectExamType(uniqueCode);
-    if (!examType || examType.type !== 'THIRDIT') {
-        // Only THIRDIT has session tracking
+    if (!examType || (examType.type !== 'THIRDIT' && examType.type !== 'FS1CSE' && examType.type !== 'FS1AIDS' && examType.type !== 'FS1IT' && examType.type !== 'FS1CIVIL')) {
+        // Only THIRDIT, FS1CSE, FS1AIDS, FS1IT, and FS1CIVIL have session tracking
         return { hasActiveSession: false };
     }
     
@@ -338,7 +366,7 @@ async function checkActiveSession(rollNumber, uniqueCode) {
     }
 }
 
-// Create active session (for THIRDIT only)
+// Create active session (for THIRDIT, FS1CSE, FS1AIDS, FS1IT, and FS1CIVIL only)
 async function createActiveSession(rollNumber, uniqueCode) {
     if (!supabaseClient) {
         console.error('Supabase client not initialized');
@@ -346,7 +374,7 @@ async function createActiveSession(rollNumber, uniqueCode) {
     }
     
     const examType = detectExamType(uniqueCode);
-    if (!examType || examType.type !== 'THIRDIT') {
+    if (!examType || (examType.type !== 'THIRDIT' && examType.type !== 'FS1CSE' && examType.type !== 'FS1AIDS' && examType.type !== 'FS1IT' && examType.type !== 'FS1CIVIL')) {
         return { success: true }; // Skip for other exam types
     }
     
@@ -383,7 +411,7 @@ async function createActiveSession(rollNumber, uniqueCode) {
     }
 }
 
-// Deactivate session when exam is completed (for THIRDIT only)
+// Deactivate session when exam is completed (for THIRDIT, FS1CSE, FS1AIDS, FS1IT, and FS1CIVIL only)
 async function deactivateSession(rollNumber, uniqueCode) {
     if (!supabaseClient) {
         console.error('Supabase client not initialized');
@@ -391,7 +419,7 @@ async function deactivateSession(rollNumber, uniqueCode) {
     }
     
     const examType = detectExamType(uniqueCode);
-    if (!examType || examType.type !== 'THIRDIT') {
+    if (!examType || (examType.type !== 'THIRDIT' && examType.type !== 'FS1CSE' && examType.type !== 'FS1AIDS' && examType.type !== 'FS1IT' && examType.type !== 'FS1CIVIL')) {
         return { success: true }; // Skip for other exam types
     }
     

@@ -303,8 +303,8 @@ async function proceedToInstructions() {
             return;
         }
         
-        // For THIRDIT: Check for active session on another device
-        if (validation.examType === 'THIRDIT') {
+        // For THIRDIT, FS1CSE, FS1AIDS, FS1IT, FS1CIVIL: Check for active session on another device
+        if (validation.examType === 'THIRDIT' || validation.examType === 'FS1CSE' || validation.examType === 'FS1AIDS' || validation.examType === 'FS1IT' || validation.examType === 'FS1CIVIL') {
             const sessionCheck = await checkActiveSession(rollNumberInput, codeInput);
             if (sessionCheck.hasActiveSession) {
                 const currentDevice = generateDeviceFingerprint();
@@ -359,6 +359,18 @@ async function proceedToInstructions() {
         } else if (validation.examType === 'THIRDIT') {
             // 3rd Year IT: Use HTML/CSS/JS questions (200 total, 25 random)
             baseQuestions = selectThirdITExamQuestions();
+        } else if (validation.examType === 'FS1CSE') {
+            // FS1 CSE: Use FS1 questions (total TBD, 25 random)
+            baseQuestions = selectFS1CSEExamQuestions();
+        } else if (validation.examType === 'FS1AIDS') {
+            // FS1 AIDS: Use same questions as FS1 CSE (100 total, 25 random)
+            baseQuestions = selectFS1AIDSExamQuestions();
+        } else if (validation.examType === 'FS1IT') {
+            // FS1 IT: Use same questions as FS1 CSE (100 total, 25 random)
+            baseQuestions = selectFS1ITExamQuestions();
+        } else if (validation.examType === 'FS1CIVIL') {
+            // FS1 CIVIL: Use same questions as FS1 CSE (100 total, 25 random)
+            baseQuestions = selectFS1CIVILExamQuestions();
         } else {
             showErrorModal('Exam type not recognized. Please contact administrator.');
             return;
