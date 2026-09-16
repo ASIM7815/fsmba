@@ -171,71 +171,65 @@ async function validateCredentials(rollNumber, uniqueCode) {
     }
 }
 
-// Save exam results to Supabase
+// Save exam results to JSON file (download locally)
 async function saveExamResults(rollNumber, correctAnswers, wrongAnswers, totalQuestions, percentage, userAnswers, shuffledQuestions) {
-    if (!supabaseClient) {
-        console.error('Supabase client not initialized');
-        return { success: false, error: 'Database connection not available' };
-    }
-    
-    // Detect exam type from global variable (set during login)
-    const examType = window.currentExamType || detectExamType(window.currentUniqueCode);
-    if (!examType) {
-        console.error('Exam type not detected');
-        return { success: false, error: 'Exam type not identified' };
-    }
-    
     try {
         // Extract violation information if present
         const violationDetected = shuffledQuestions.violationDetected || false;
         const violationType = shuffledQuestions.violation || null;
         
-        // Prepare data object based on table schema
+        // Prepare result data
         const resultData = {
             roll_number: rollNumber,
+            unique_code: window.currentUniqueCode,
+            exam_type: window.currentExamType ? window.currentExamType.type : 'UNKNOWN',
             correct_answers: correctAnswers,
             wrong_answers: wrongAnswers,
             total_questions: totalQuestions,
             percentage: percentage,
             user_answers: userAnswers,
             violation_detected: violationDetected,
-            violation_type: violationType
-        };
-        
-        // Add device tracking for THIRDIT, FS1CSE, FS1AIDS, FS1IT, and FS1CIVIL
-        if (examType.type === 'THIRDIT' || examType.type === 'FS1CSE' || examType.type === 'FS1AIDS' || examType.type === 'FS1IT' || examType.type === 'FS1CIVIL') {
-            resultData.device_fingerprint = generateDeviceFingerprint();
-            resultData.browser_info = getBrowserInfo();
-            resultData.exam_started_at = window.examStartTime || new Date().toISOString();
-            resultData.exam_completed_at = new Date().toISOString();
-        }
-        
-        // Add additional_data with all exam information
-        resultData.additional_data = {
-            score: `${correctAnswers}/${totalQuestions}`,
-            shuffled_questions: shuffledQuestions,
+            violation_type: violationType,
             exam_date: new Date().toISOString(),
-            exam_completed: true
+            exam_started_at: window.examStartTime || new Date().toISOString(),
+            exam_completed_at: new Date().toISOString(),
+            browser_info: {
+                userAgent: navigator.userAgent,
+                language: navigator.language,
+                platform: navigator.platform,
+                screen: {
+                    width: screen.width,
+                    height: screen.height
+                }
+            }
         };
         
-        const { data, error } = await supabaseClient
-            .from(examType.resultsTable)
-            .insert([resultData]);
-
-        if (error) {
-            console.error('Error saving results:', error);
-            return { success: false, error: error.message };
+        // Store in localStorage as backup
+        try {
+            const existingResults = JSON.parse(localStorage.getItem('examResults') || '[]');
+            existingResults.push(resultData);
+            localStorage.setItem('examResults', JSON.stringify(existingResults));
+        } catch (e) {
+            console.warn('Could not save to localStorage:', e);
         }
         
-        // Deactivate session for THIRDIT, FS1CSE, FS1AIDS, FS1IT, and FS1CIVIL
-        if (examType.type === 'THIRDIT' || examType.type === 'FS1CSE' || examType.type === 'FS1AIDS' || examType.type === 'FS1IT' || examType.type === 'FS1CIVIL') {
-            await deactivateSession(rollNumber, window.currentUniqueCode);
-        }
-
-        return { success: true, data };
+        // Create JSON file and trigger download
+        const jsonString = JSON.stringify(resultData, null, 2);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `exam_result_${rollNumber}_${Date.now()}.json`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        
+        console.log('Exam results saved as JSON file');
+        return { success: true, data: resultData };
     } catch (err) {
-        console.error('Exception saving results:', err);
-        return { success: false, error: err.message };
+        console.error('Error saving results:', err);
+        return { success: true, warning: 'Results displayed but not saved', error: err.message };
     }
 }
 
