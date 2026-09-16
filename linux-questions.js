@@ -11,7 +11,7 @@ const linuxQuestions = [
             "A database language",
             "A web browser"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Who created the Linux kernel?",
@@ -21,7 +21,7 @@ const linuxQuestions = [
             "Bill Gates",
             "Tim Berners-Lee"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which idea is central to open-source software?",
@@ -31,7 +31,7 @@ const linuxQuestions = [
             "Only one vendor can distribute it",
             "It cannot be shared"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which of the following is a Linux distribution?",
@@ -41,7 +41,7 @@ const linuxQuestions = [
             "Oracle SQL",
             "Photoshop"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which is another Linux distribution listed in the syllabus?",
@@ -51,7 +51,7 @@ const linuxQuestions = [
             "ChromeOS only",
             "PowerPoint"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "CentOS is associated with:",
@@ -61,7 +61,7 @@ const linuxQuestions = [
             "Database normalization",
             "Spreadsheet formulas"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which directory is the root of the Linux file-system hierarchy?",
@@ -71,7 +71,7 @@ const linuxQuestions = [
             "C:\\",
             "~root"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command prints the current working directory?",
@@ -81,7 +81,7 @@ const linuxQuestions = [
             "cd",
             "cat"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command lists directory contents?",
@@ -91,7 +91,7 @@ const linuxQuestions = [
             "rm",
             "touch"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command changes the current directory?",
@@ -101,7 +101,7 @@ const linuxQuestions = [
             "more",
             "pwd"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command displays the contents of a text file?",
@@ -111,7 +111,7 @@ const linuxQuestions = [
             "touch",
             "mv"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command is suitable for viewing text one screen at a time?",
@@ -121,7 +121,7 @@ const linuxQuestions = [
             "cp",
             "pwd"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Compared with more, which command commonly provides flexible forward/backward viewing?",
@@ -131,7 +131,7 @@ const linuxQuestions = [
             "mv",
             "cd"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command copies a file?",
@@ -141,7 +141,7 @@ const linuxQuestions = [
             "rm",
             "cat"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command can move or rename a file?",
@@ -151,7 +151,7 @@ const linuxQuestions = [
             "pwd",
             "less"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command removes a file?",
@@ -161,7 +161,7 @@ const linuxQuestions = [
             "cat",
             "pwd"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command can create an empty file or update its timestamp?",
@@ -171,7 +171,7 @@ const linuxQuestions = [
             "mv",
             "less"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which of these is a terminal text editor?",
@@ -181,7 +181,7 @@ const linuxQuestions = [
             "ls",
             "cp"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which is a classic Unix/Linux modal text editor?",
@@ -191,7 +191,7 @@ const linuxQuestions = [
             "touch",
             "rm"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "vim is best described as:",
@@ -201,7 +201,7 @@ const linuxQuestions = [
             "A file system",
             "A boot loader"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "What does the path /home commonly contain?",
@@ -211,7 +211,7 @@ const linuxQuestions = [
             "Device files only",
             "Temporary boot files only"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "What does ~ commonly represent in a shell?",
@@ -221,7 +221,7 @@ const linuxQuestions = [
             "Current process ID",
             "A comment"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command would most directly show files in /etc?",
@@ -231,7 +231,7 @@ const linuxQuestions = [
             "cd --show /etc",
             "cat --dir /etc"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which operation best preserves the original while creating another copy?",
@@ -241,7 +241,7 @@ const linuxQuestions = [
             "rm",
             "touch"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "If you want to rename report.txt to final.txt in the same directory, which is appropriate?",
@@ -251,7 +251,7 @@ const linuxQuestions = [
             "rm report.txt final.txt",
             "touch report.txt final.txt"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which combination best supports basic Linux navigation?",
@@ -261,7 +261,7 @@ const linuxQuestions = [
             "apt, yum, dnf",
             "chmod, chown, umask"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command is used to add a user on many Linux systems?",
@@ -271,7 +271,7 @@ const linuxQuestions = [
             "mkuserfile",
             "addprocess"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command changes or sets a user's password?",
@@ -281,7 +281,7 @@ const linuxQuestions = [
             "pwd",
             "chpassfile"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command can switch to another user account?",
@@ -291,7 +291,7 @@ const linuxQuestions = [
             "df",
             "ps"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "sudo is primarily used to:",
@@ -301,7 +301,7 @@ const linuxQuestions = [
             "Measure disk space",
             "Edit only text files"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command displays user and group identity information?",
@@ -311,7 +311,7 @@ const linuxQuestions = [
             "top",
             "free"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command shows group memberships?",
@@ -321,7 +321,7 @@ const linuxQuestions = [
             "uptime",
             "du"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command changes file permission bits?",
@@ -331,7 +331,7 @@ const linuxQuestions = [
             "umask",
             "passwd"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command changes file ownership?",
@@ -341,7 +341,7 @@ const linuxQuestions = [
             "ps",
             "df"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "umask is used to influence:",
@@ -351,7 +351,7 @@ const linuxQuestions = [
             "Network routing",
             "Package repositories"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "In rwxr-xr--, the owner's permissions are:",
@@ -361,7 +361,7 @@ const linuxQuestions = [
             "r--",
             "---"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which permission allows reading file contents?",
@@ -371,7 +371,7 @@ const linuxQuestions = [
             "x",
             "s"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which permission allows modifying a file?",
@@ -381,7 +381,7 @@ const linuxQuestions = [
             "x",
             "t"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which permission allows executing a file as a program/script?",
@@ -391,7 +391,7 @@ const linuxQuestions = [
             "w",
             "d"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command shows running processes?",
@@ -401,7 +401,7 @@ const linuxQuestions = [
             "df",
             "apt"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command provides an interactive process view?",
@@ -411,7 +411,7 @@ const linuxQuestions = [
             "groups",
             "du"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command sends a signal to a process?",
@@ -421,7 +421,7 @@ const linuxQuestions = [
             "mv",
             "free"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command lists jobs started from the current shell?",
@@ -431,7 +431,7 @@ const linuxQuestions = [
             "groups",
             "df"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command brings a background job to the foreground?",
@@ -441,7 +441,7 @@ const linuxQuestions = [
             "top",
             "id"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command resumes/places a job in the background?",
@@ -451,7 +451,7 @@ const linuxQuestions = [
             "du",
             "free"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command reports file-system disk space usage?",
@@ -461,7 +461,7 @@ const linuxQuestions = [
             "free",
             "uptime"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command estimates space used by files/directories?",
@@ -471,7 +471,7 @@ const linuxQuestions = [
             "top",
             "jobs"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command displays memory usage?",
@@ -481,7 +481,7 @@ const linuxQuestions = [
             "du",
             "ps"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command shows system uptime?",
@@ -491,7 +491,7 @@ const linuxQuestions = [
             "df",
             "top"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which package manager is commonly used on Debian/Ubuntu?",
@@ -501,7 +501,7 @@ const linuxQuestions = [
             "dnf",
             "pacman"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which package managers are commonly associated with RPM-based distributions?",
@@ -511,7 +511,7 @@ const linuxQuestions = [
             "pwd and cd",
             "cp and mv"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "A process consumes excessive CPU. Which pair is most useful to identify and terminate it?",
@@ -521,7 +521,7 @@ const linuxQuestions = [
             "df and du",
             "chmod and chown"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "An environment variable is used to:",
@@ -531,7 +531,7 @@ const linuxQuestions = [
             "Create users only",
             "Terminate every process"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which variable commonly contains directories searched for executable commands?",
@@ -541,7 +541,7 @@ const linuxQuestions = [
             "EXECUTE",
             "SHELLPATHFILE"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "An alias in a shell is primarily used to:",
@@ -551,7 +551,7 @@ const linuxQuestions = [
             "Encrypt a file",
             "Add a user"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "A shell script is:",
@@ -561,7 +561,7 @@ const linuxQuestions = [
             "A compiled kernel module only",
             "A database table"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which line is commonly used as a Bash shebang?",
@@ -571,7 +571,7 @@ const linuxQuestions = [
             "//bin/bash",
             "bash#!"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which symbol is commonly used to access a shell variable's value?",
@@ -581,7 +581,7 @@ const linuxQuestions = [
             "@",
             "#"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which construct is used for decision-making in Bash scripts?",
@@ -591,7 +591,7 @@ const linuxQuestions = [
             "ping",
             "tar"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which construct can repeat commands in a shell script?",
@@ -601,7 +601,7 @@ const linuxQuestions = [
             "df",
             "ssh key"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which construct is useful for repetition while a condition remains true?",
@@ -611,7 +611,7 @@ const linuxQuestions = [
             "tar",
             "curl"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "A shell function is useful for:",
@@ -621,7 +621,7 @@ const linuxQuestions = [
             "Changing kernel version",
             "Replacing the file system"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which service schedules recurring jobs?",
@@ -631,7 +631,7 @@ const linuxQuestions = [
             "ping",
             "curl"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command is designed for scheduling a one-time job?",
@@ -641,7 +641,7 @@ const linuxQuestions = [
             "ss",
             "wget"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "A crontab entry is used to define:",
@@ -651,7 +651,7 @@ const linuxQuestions = [
             "Disk partitions",
             "Password hashes only"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command tests basic network reachability?",
@@ -661,7 +661,7 @@ const linuxQuestions = [
             "du",
             "jobs"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command can transfer data using URLs and is commonly used with web APIs?",
@@ -671,7 +671,7 @@ const linuxQuestions = [
             "ps",
             "free"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command is commonly used to download files from the web?",
@@ -681,7 +681,7 @@ const linuxQuestions = [
             "id",
             "lsblk"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command historically displays network connections and statistics?",
@@ -691,7 +691,7 @@ const linuxQuestions = [
             "nano",
             "passwd"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which modern command can display socket information?",
@@ -701,7 +701,7 @@ const linuxQuestions = [
             "cp",
             "at"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command displays/configures IP address information in modern Linux?",
@@ -711,7 +711,7 @@ const linuxQuestions = [
             "df ip",
             "cat net"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command would best test whether a remote host responds to ICMP echo requests?",
@@ -721,7 +721,7 @@ const linuxQuestions = [
             "chmod",
             "jobs"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which is the best reason to automate repetitive administration tasks with Bash?",
@@ -731,7 +731,7 @@ const linuxQuestions = [
             "To avoid using commands",
             "To replace the operating system"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "A script needs to perform an action for every file in a list. Which structure is most suitable?",
@@ -741,7 +741,7 @@ const linuxQuestions = [
             "umask",
             "systemctl"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "A script should execute backup commands only when a directory exists. Which feature is most relevant?",
@@ -751,7 +751,7 @@ const linuxQuestions = [
             "Boot target",
             "Firewall rule"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "To run a maintenance script every day automatically, which facility is most appropriate?",
@@ -761,7 +761,7 @@ const linuxQuestions = [
             "ping",
             "ss"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "To schedule a shutdown-related command once at a specific later time, which tool is most appropriate?",
@@ -771,7 +771,7 @@ const linuxQuestions = [
             "curl",
             "alias"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "A simple Bash automation project most directly demonstrates:",
@@ -781,7 +781,7 @@ const linuxQuestions = [
             "Designing a CPU",
             "Creating a spreadsheet"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "systemd is primarily used for:",
@@ -791,7 +791,7 @@ const linuxQuestions = [
             "Compiling C only",
             "Managing Git repositories"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command manages systemd services?",
@@ -801,7 +801,7 @@ const linuxQuestions = [
             "tar",
             "lsblk"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "A systemd target is conceptually related to:",
@@ -811,7 +811,7 @@ const linuxQuestions = [
             "A user password",
             "A Git branch"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command can show block devices?",
@@ -821,7 +821,7 @@ const linuxQuestions = [
             "cat",
             "free"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which tool can manipulate disk partition tables?",
@@ -831,7 +831,7 @@ const linuxQuestions = [
             "jobs",
             "nano"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which is another disk partitioning tool listed in the syllabus?",
@@ -841,7 +841,7 @@ const linuxQuestions = [
             "uptime",
             "chown"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command attaches a file system to the directory tree?",
@@ -851,7 +851,7 @@ const linuxQuestions = [
             "kill",
             "tar"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command detaches a mounted file system?",
@@ -861,7 +861,7 @@ const linuxQuestions = [
             "mv",
             "free"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which is a common Linux file system?",
@@ -871,7 +871,7 @@ const linuxQuestions = [
             "HTTPFS",
             "GITFS"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command creates a new directory?",
@@ -881,7 +881,7 @@ const linuxQuestions = [
             "newdir",
             "createdir"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command removes an empty directory?",
@@ -891,7 +891,7 @@ const linuxQuestions = [
             "deletedir",
             "remdir"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command can search for files in a directory hierarchy?",
@@ -901,7 +901,7 @@ const linuxQuestions = [
             "locate",
             "grep"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command searches for patterns within files?",
@@ -911,7 +911,7 @@ const linuxQuestions = [
             "search",
             "look"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command displays the first few lines of a file?",
@@ -921,7 +921,7 @@ const linuxQuestions = [
             "top",
             "first"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command displays the last few lines of a file?",
@@ -931,7 +931,7 @@ const linuxQuestions = [
             "bottom",
             "last"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command compares two files line by line?",
@@ -941,7 +941,7 @@ const linuxQuestions = [
             "compare",
             "check"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command creates compressed archive files?",
@@ -951,7 +951,7 @@ const linuxQuestions = [
             "compress",
             "archive"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command compresses files using gzip compression?",
@@ -961,7 +961,7 @@ const linuxQuestions = [
             "zip",
             "tar"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command decompresses gzip files?",
@@ -971,7 +971,7 @@ const linuxQuestions = [
             "decompress",
             "extract"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command displays or sets the system date and time?",
@@ -981,7 +981,7 @@ const linuxQuestions = [
             "clock",
             "datetime"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command displays a calendar?",
@@ -991,7 +991,7 @@ const linuxQuestions = [
             "date",
             "time"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command clears the terminal screen?",
@@ -1001,7 +1001,7 @@ const linuxQuestions = [
             "clean",
             "reset"
         ],
-        correctAnswer: 0
+        correct: 0
     },
     {
         question: "Which command displays a line of text?",
@@ -1011,7 +1011,7 @@ const linuxQuestions = [
             "display",
             "show"
         ],
-        correctAnswer: 0
+        correct: 0
     }
 ];
 
