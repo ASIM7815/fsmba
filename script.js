@@ -444,6 +444,61 @@ async function proceedToInstructions() {
                 showErrorModal('Linux questions not loaded. Please refresh the page.');
                 return;
             }
+        } else if (validation.examType === 'FFFCSE') {
+            // FFFCSE: Use Data Structures questions (200 total, 25 random)
+            console.log('📚 Loading Data Structures questions for FFFCSE');
+            if (typeof selectDSExamQuestions !== 'undefined') {
+                baseQuestions = selectDSExamQuestions();
+                console.log('✅ Data Structures questions loaded:', baseQuestions.length);
+            } else {
+                console.error('❌ selectDSExamQuestions not found!');
+                showErrorModal('Data Structures questions not loaded. Please refresh the page.');
+                return;
+            }
+        } else if (validation.examType === 'FFFECE') {
+            // FFFECE: Use Data Structures questions (200 total, 25 random)
+            console.log('📚 Loading Data Structures questions for FFFECE');
+            if (typeof selectDSExamQuestions !== 'undefined') {
+                baseQuestions = selectDSExamQuestions();
+                console.log('✅ Data Structures questions loaded:', baseQuestions.length);
+            } else {
+                console.error('❌ selectDSExamQuestions not found!');
+                showErrorModal('Data Structures questions not loaded. Please refresh the page.');
+                return;
+            }
+        } else if (validation.examType === 'FFFAIDS') {
+            // FFFAIDS: Use Data Structures questions (200 total, 25 random)
+            console.log('📚 Loading Data Structures questions for FFFAIDS');
+            if (typeof selectDSExamQuestions !== 'undefined') {
+                baseQuestions = selectDSExamQuestions();
+                console.log('✅ Data Structures questions loaded:', baseQuestions.length);
+            } else {
+                console.error('❌ selectDSExamQuestions not found!');
+                showErrorModal('Data Structures questions not loaded. Please refresh the page.');
+                return;
+            }
+        } else if (validation.examType === 'FFFIT') {
+            // FFFIT: Use Data Structures questions (200 total, 25 random)
+            console.log('📚 Loading Data Structures questions for FFFIT');
+            if (typeof selectDSExamQuestions !== 'undefined') {
+                baseQuestions = selectDSExamQuestions();
+                console.log('✅ Data Structures questions loaded:', baseQuestions.length);
+            } else {
+                console.error('❌ selectDSExamQuestions not found!');
+                showErrorModal('Data Structures questions not loaded. Please refresh the page.');
+                return;
+            }
+        } else if (validation.examType === 'FFFCIVIL') {
+            // FFFCIVIL: Use Data Structures questions (200 total, 25 random)
+            console.log('📚 Loading Data Structures questions for FFFCIVIL');
+            if (typeof selectDSExamQuestions !== 'undefined') {
+                baseQuestions = selectDSExamQuestions();
+                console.log('✅ Data Structures questions loaded:', baseQuestions.length);
+            } else {
+                console.error('❌ selectDSExamQuestions not found!');
+                showErrorModal('Data Structures questions not loaded. Please refresh the page.');
+                return;
+            }
         } else {
             showErrorModal('Exam type not recognized. Please contact administrator.');
             return;

@@ -151,6 +151,36 @@ function detectExamType(uniqueCode) {
             studentsTable: 'ffece_students',
             resultsTable: 'ffece_exam_results'
         };
+    } else if (uniqueCode === 'fffcse') {
+        return {
+            type: 'FFFCSE',
+            studentsTable: 'fffcse_students',
+            resultsTable: 'fffcse_exam_results'
+        };
+    } else if (uniqueCode === 'fffece') {
+        return {
+            type: 'FFFECE',
+            studentsTable: 'fffece_students',
+            resultsTable: 'fffece_exam_results'
+        };
+    } else if (uniqueCode === 'fffaids') {
+        return {
+            type: 'FFFAIDS',
+            studentsTable: 'fffaids_students',
+            resultsTable: 'fffaids_exam_results'
+        };
+    } else if (uniqueCode === 'fffit') {
+        return {
+            type: 'FFFIT',
+            studentsTable: 'fffit_students',
+            resultsTable: 'fffit_exam_results'
+        };
+    } else if (uniqueCode === 'fffcivil') {
+        return {
+            type: 'FFFCIVIL',
+            studentsTable: 'fffcivil_students',
+            resultsTable: 'fffcivil_exam_results'
+        };
     }
     return null;
 }
