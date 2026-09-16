@@ -179,14 +179,21 @@ async function validateCredentials(rollNumber, uniqueCode) {
     }
 
     try {
+        // Add timeout to prevent hanging
+        const timeoutPromise = new Promise((_, reject) => {
+            setTimeout(() => reject(new Error('Connection timeout')), 10000); // 10 second timeout
+        });
+
         // Query the appropriate students table
-        const { data, error } = await supabaseClient
+        const queryPromise = supabaseClient
             .from(examType.studentsTable)
             .select('*')
             .eq('roll_number', rollNumber)
             .eq('unique_code', uniqueCode)
             .eq('is_active', true)
             .single();
+
+        const { data, error } = await Promise.race([queryPromise, timeoutPromise]);
 
         if (error) {
             // If no matching record found
@@ -199,7 +206,7 @@ async function validateCredentials(rollNumber, uniqueCode) {
             console.error('Error validating credentials:', error);
             return {
                 valid: false,
-                error: 'Authentication error. Please try again.'
+                error: 'Authentication error. Please check your internet connection and try again.'
             };
         }
 
@@ -212,9 +219,15 @@ async function validateCredentials(rollNumber, uniqueCode) {
         };
     } catch (err) {
         console.error('Exception validating credentials:', err);
+        if (err.message === 'Connection timeout') {
+            return {
+                valid: false,
+                error: 'Connection timeout. Please check your internet connection and try again.'
+            };
+        }
         return {
             valid: false,
-            error: 'An error occurred during authentication. Please try again.'
+            error: 'Network error. Please check your internet connection and try again.'
         };
     }
 }
