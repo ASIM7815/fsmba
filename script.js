@@ -266,10 +266,10 @@ async function proceedToInstructions() {
         return;
     }
 
-    // Check if validateCredentials function exists
-    if (typeof validateCredentials === 'undefined') {
+    // Check if validateStudentCredentials function exists
+    if (typeof validateStudentCredentials === 'undefined') {
         showErrorModal('System not ready. Please refresh the page and try again.');
-        console.error('validateCredentials function not found. Check if supabase-config.js loaded properly.');
+        console.error('validateStudentCredentials function not found. Check if students-config.js loaded properly.');
         return;
     }
 
@@ -280,8 +280,8 @@ async function proceedToInstructions() {
     continueBtn.disabled = true;
 
     try {
-        // Validate credentials against database
-        const validation = await validateCredentials(rollNumberInput, codeInput);
+        // Validate credentials using hardcoded data (no Supabase needed for login)
+        const validation = validateStudentCredentials(rollNumberInput, codeInput);
         
         // Reset button
         continueBtn.textContent = originalText;
@@ -296,33 +296,35 @@ async function proceedToInstructions() {
         window.currentExamType = detectExamType(codeInput);
         window.currentUniqueCode = codeInput;
 
-        // Check if student has already taken the exam
-        const examStatus = await checkExamStatus(rollNumberInput, codeInput);
+        // Check if student has already taken the exam (Supabase check - optional)
+        const examStatus = await checkIfExamTaken(rollNumberInput, codeInput);
         if (examStatus.alreadyTaken) {
             showErrorModal('You have already completed this exam. You cannot take it again.');
             return;
         }
         
-        // For THIRDIT, FS1CSE, FS1AIDS, FS1IT, FS1CIVIL: Check for active session on another device
+        // For device tracking exams: Check for active session on another device
         if (validation.examType === 'THIRDIT' || validation.examType === 'FS1CSE' || validation.examType === 'FS1AIDS' || validation.examType === 'FS1IT' || validation.examType === 'FS1CIVIL') {
-            const sessionCheck = await checkActiveSession(rollNumberInput, codeInput);
-            if (sessionCheck.hasActiveSession) {
-                const currentDevice = generateDeviceFingerprint();
-                if (sessionCheck.deviceFingerprint !== currentDevice) {
-                    showErrorModal('This exam is already in progress on another device. Only one device is allowed per student. Please complete or wait for the previous session to expire.');
-                    return;
+            // Session management for these exams
+            if (typeof checkActiveSession !== 'undefined' && typeof createActiveSession !== 'undefined') {
+                const sessionCheck = await checkActiveSession(rollNumberInput, codeInput);
+                if (sessionCheck.hasActiveSession) {
+                    const currentDevice = generateDeviceFingerprint();
+                    if (sessionCheck.deviceFingerprint !== currentDevice) {
+                        showErrorModal('This exam is already in progress on another device. Only one device is allowed per student. Please complete or wait for the previous session to expire.');
+                        return;
+                    }
                 }
+                
+                // Create active session for this device
+                const sessionCreate = await createActiveSession(rollNumberInput, codeInput);
+                if (!sessionCreate.success) {
+                    console.warn('Unable to create session - continuing anyway');
+                }
+                
+                // Store exam start time
+                window.examStartTime = new Date().toISOString();
             }
-            
-            // Create active session for this device
-            const sessionCreate = await createActiveSession(rollNumberInput, codeInput);
-            if (!sessionCreate.success) {
-                showErrorModal('Unable to start exam session. Please try again or contact administrator.');
-                return;
-            }
-            
-            // Store exam start time
-            window.examStartTime = new Date().toISOString();
         }
 
         studentRollNumber = rollNumberInput;
