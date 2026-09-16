@@ -402,16 +402,16 @@ async function proceedToInstructions() {
             baseQuestions = selectFS1CIVILExamQuestions();
         } else if (validation.examType === 'FFCSE') {
             // FFCSE: Use Linux questions (100 total, 25 random)
-            baseQuestions = selectFS1CSEExamQuestions(); // Will create Linux questions later
+            baseQuestions = selectLinuxExamQuestions();
         } else if (validation.examType === 'FFIT') {
             // FFIT: Use Linux questions (100 total, 25 random)
-            baseQuestions = selectFS1ITExamQuestions(); // Will create Linux questions later
+            baseQuestions = selectLinuxExamQuestions();
         } else if (validation.examType === 'FFAIDS') {
             // FFAIDS: Use Linux questions (100 total, 25 random)
-            baseQuestions = selectFS1AIDSExamQuestions(); // Will create Linux questions later
+            baseQuestions = selectLinuxExamQuestions();
         } else if (validation.examType === 'FFECE') {
             // FFECE: Use Linux questions (100 total, 25 random)
-            baseQuestions = selectFS1CIVILExamQuestions(); // Will create Linux questions later
+            baseQuestions = selectLinuxExamQuestions();
         } else {
             showErrorModal('Exam type not recognized. Please contact administrator.');
             return;
