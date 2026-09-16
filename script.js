@@ -266,10 +266,10 @@ async function proceedToInstructions() {
         return;
     }
 
-    // Check if validateStudentCredentials function exists
-    if (typeof validateStudentCredentials === 'undefined') {
+    // Check if validateCredentials function exists (Supabase validation)
+    if (typeof validateCredentials === 'undefined') {
         showErrorModal('System not ready. Please refresh the page and try again.');
-        console.error('validateStudentCredentials function not found. Check if students-config.js loaded properly.');
+        console.error('validateCredentials function not found. Check if supabase-config.js loaded properly.');
         return;
     }
 
@@ -280,8 +280,8 @@ async function proceedToInstructions() {
     continueBtn.disabled = true;
 
     try {
-        // Validate credentials using hardcoded data (no Supabase needed for login)
-        const validation = validateStudentCredentials(rollNumberInput, codeInput);
+        // Validate credentials using Supabase database
+        const validation = await validateCredentials(rollNumberInput, codeInput);
         
         // Reset button
         continueBtn.textContent = originalText;
