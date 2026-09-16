@@ -103,11 +103,26 @@ async function checkIfExamTaken(rollNumber, uniqueCode) {
             return { alreadyTaken: false };
         }
         
-        const { data, error } = await supabaseClient
+        // Set a timeout of 3 seconds
+        const timeoutPromise = new Promise((resolve) => {
+            setTimeout(() => resolve({ alreadyTaken: false, timeout: true }), 3000);
+        });
+        
+        const queryPromise = supabaseClient
             .from(examType.resultsTable)
-            .select('*')
+            .select('id')
             .eq('roll_number', rollNumber)
-            .single();
+            .limit(1)
+            .maybeSingle();
+        
+        const result = await Promise.race([queryPromise, timeoutPromise]);
+        
+        if (result.timeout) {
+            console.warn('Duplicate check timed out - allowing exam');
+            return { alreadyTaken: false };
+        }
+        
+        const { data, error } = result;
 
         if (error && error.code !== 'PGRST116') {
             console.error('Error checking exam status:', error);

@@ -296,34 +296,48 @@ async function proceedToInstructions() {
         window.currentExamType = detectExamType(codeInput);
         window.currentUniqueCode = codeInput;
 
-        // Check if student has already taken the exam (Supabase check - optional)
-        const examStatus = await checkIfExamTaken(rollNumberInput, codeInput);
-        if (examStatus.alreadyTaken) {
-            showErrorModal('You have already completed this exam. You cannot take it again.');
-            return;
+        // Check if student has already taken the exam (Supabase check - optional, with timeout)
+        try {
+            const examStatus = await checkIfExamTaken(rollNumberInput, codeInput);
+            if (examStatus.alreadyTaken) {
+                showErrorModal('You have already completed this exam. You cannot take it again.');
+                return;
+            }
+        } catch (err) {
+            console.warn('Could not check exam status - proceeding anyway:', err);
         }
         
-        // For device tracking exams: Check for active session on another device
+        // For device tracking exams: Check for active session (non-blocking)
         if (validation.examType === 'THIRDIT' || validation.examType === 'FS1CSE' || validation.examType === 'FS1AIDS' || validation.examType === 'FS1IT' || validation.examType === 'FS1CIVIL') {
-            // Session management for these exams
-            if (typeof checkActiveSession !== 'undefined' && typeof createActiveSession !== 'undefined') {
-                const sessionCheck = await checkActiveSession(rollNumberInput, codeInput);
-                if (sessionCheck.hasActiveSession) {
-                    const currentDevice = generateDeviceFingerprint();
-                    if (sessionCheck.deviceFingerprint !== currentDevice) {
-                        showErrorModal('This exam is already in progress on another device. Only one device is allowed per student. Please complete or wait for the previous session to expire.');
-                        return;
+            // Session management for these exams (optional - don't block)
+            try {
+                if (typeof checkActiveSession !== 'undefined' && typeof createActiveSession !== 'undefined') {
+                    // Quick timeout for session check
+                    const sessionCheckPromise = checkActiveSession(rollNumberInput, codeInput);
+                    const timeoutPromise = new Promise((resolve) => setTimeout(() => resolve(null), 2000));
+                    
+                    const sessionCheck = await Promise.race([sessionCheckPromise, timeoutPromise]);
+                    
+                    if (sessionCheck && sessionCheck.hasActiveSession) {
+                        if (typeof generateDeviceFingerprint !== 'undefined') {
+                            const currentDevice = generateDeviceFingerprint();
+                            if (sessionCheck.deviceFingerprint !== currentDevice) {
+                                showErrorModal('This exam is already in progress on another device. Only one device is allowed per student.');
+                                return;
+                            }
+                        }
                     }
+                    
+                    // Try to create session (non-blocking)
+                    createActiveSession(rollNumberInput, codeInput).catch(err => {
+                        console.warn('Could not create session - continuing anyway:', err);
+                    });
+                    
+                    // Store exam start time
+                    window.examStartTime = new Date().toISOString();
                 }
-                
-                // Create active session for this device
-                const sessionCreate = await createActiveSession(rollNumberInput, codeInput);
-                if (!sessionCreate.success) {
-                    console.warn('Unable to create session - continuing anyway');
-                }
-                
-                // Store exam start time
-                window.examStartTime = new Date().toISOString();
+            } catch (err) {
+                console.warn('Session management error - continuing anyway:', err);
             }
         }
 

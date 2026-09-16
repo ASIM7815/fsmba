@@ -171,65 +171,77 @@ async function validateCredentials(rollNumber, uniqueCode) {
     }
 }
 
-// Save exam results to JSON file (download locally)
+// Save exam results to Supabase
 async function saveExamResults(rollNumber, correctAnswers, wrongAnswers, totalQuestions, percentage, userAnswers, shuffledQuestions) {
+    if (!supabaseClient) {
+        console.warn('Supabase client not initialized - results will not be saved');
+        return { success: true, warning: 'Results not saved - Supabase not configured' };
+    }
+    
+    // Detect exam type from global variable (set during login)
+    const examType = window.currentExamType || detectExamType(window.currentUniqueCode);
+    if (!examType) {
+        console.error('Exam type not detected');
+        return { success: true, warning: 'Results not saved - exam type unknown' };
+    }
+    
     try {
         // Extract violation information if present
         const violationDetected = shuffledQuestions.violationDetected || false;
         const violationType = shuffledQuestions.violation || null;
         
-        // Prepare result data
+        // Prepare data object based on table schema
         const resultData = {
             roll_number: rollNumber,
-            unique_code: window.currentUniqueCode,
-            exam_type: window.currentExamType ? window.currentExamType.type : 'UNKNOWN',
             correct_answers: correctAnswers,
             wrong_answers: wrongAnswers,
             total_questions: totalQuestions,
             percentage: percentage,
             user_answers: userAnswers,
             violation_detected: violationDetected,
-            violation_type: violationType,
-            exam_date: new Date().toISOString(),
-            exam_started_at: window.examStartTime || new Date().toISOString(),
-            exam_completed_at: new Date().toISOString(),
-            browser_info: {
-                userAgent: navigator.userAgent,
-                language: navigator.language,
-                platform: navigator.platform,
-                screen: {
-                    width: screen.width,
-                    height: screen.height
-                }
-            }
+            violation_type: violationType
         };
         
-        // Store in localStorage as backup
-        try {
-            const existingResults = JSON.parse(localStorage.getItem('examResults') || '[]');
-            existingResults.push(resultData);
-            localStorage.setItem('examResults', JSON.stringify(existingResults));
-        } catch (e) {
-            console.warn('Could not save to localStorage:', e);
+        // Add device tracking for THIRDIT, FS1CSE, FS1AIDS, FS1IT, and FS1CIVIL
+        if (examType.type === 'THIRDIT' || examType.type === 'FS1CSE' || examType.type === 'FS1AIDS' || examType.type === 'FS1IT' || examType.type === 'FS1CIVIL') {
+            if (typeof generateDeviceFingerprint !== 'undefined' && typeof getBrowserInfo !== 'undefined') {
+                resultData.device_fingerprint = generateDeviceFingerprint();
+                resultData.browser_info = getBrowserInfo();
+                resultData.exam_started_at = window.examStartTime || new Date().toISOString();
+                resultData.exam_completed_at = new Date().toISOString();
+            }
         }
         
-        // Create JSON file and trigger download
-        const jsonString = JSON.stringify(resultData, null, 2);
-        const blob = new Blob([jsonString], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `exam_result_${rollNumber}_${Date.now()}.json`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
+        // Add additional_data with all exam information
+        resultData.additional_data = {
+            score: `${correctAnswers}/${totalQuestions}`,
+            shuffled_questions: shuffledQuestions,
+            exam_date: new Date().toISOString(),
+            exam_completed: true
+        };
         
-        console.log('Exam results saved as JSON file');
-        return { success: true, data: resultData };
+        const { data, error } = await supabaseClient
+            .from(examType.resultsTable)
+            .insert([resultData]);
+
+        if (error) {
+            console.error('Error saving results to Supabase:', error);
+            // Don't fail the exam - just log the error
+            return { success: true, warning: 'Results could not be saved to database', error: error.message };
+        }
+        
+        // Deactivate session for THIRDIT, FS1CSE, FS1AIDS, FS1IT, and FS1CIVIL
+        if (examType.type === 'THIRDIT' || examType.type === 'FS1CSE' || examType.type === 'FS1AIDS' || examType.type === 'FS1IT' || examType.type === 'FS1CIVIL') {
+            if (typeof deactivateSession !== 'undefined') {
+                await deactivateSession(rollNumber, window.currentUniqueCode);
+            }
+        }
+
+        return { success: true, data };
     } catch (err) {
-        console.error('Error saving results:', err);
-        return { success: true, warning: 'Results displayed but not saved', error: err.message };
+        console.error('Exception saving results:', err);
+        // Don't fail the exam - just log the error
+        return { success: true, warning: 'Results could not be saved', error: err.message };
     }
 }
 
