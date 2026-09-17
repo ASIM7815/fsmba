@@ -499,6 +499,28 @@ async function proceedToInstructions() {
                 showErrorModal('Data Structures questions not loaded. Please refresh the page.');
                 return;
             }
+        } else if (validation.examType === 'FS4CSE') {
+            // FS4CSE: Use thirdcse questions (200 total, 20 random)
+            console.log('💻 Loading HTML/CSS/JS questions for FS4CSE');
+            if (typeof selectThirdCSEExamQuestions !== 'undefined') {
+                baseQuestions = selectThirdCSEExamQuestions();
+                console.log('✅ ThirdCSE questions loaded:', baseQuestions.length);
+            } else {
+                console.error('❌ selectThirdCSEExamQuestions not found!');
+                showErrorModal('HTML/CSS/JS questions not loaded. Please refresh the page.');
+                return;
+            }
+        } else if (validation.examType === 'FS4IT') {
+            // FS4IT: Use thirdcse questions (200 total, 20 random)
+            console.log('💻 Loading HTML/CSS/JS questions for FS4IT');
+            if (typeof selectThirdCSEExamQuestions !== 'undefined') {
+                baseQuestions = selectThirdCSEExamQuestions();
+                console.log('✅ ThirdCSE questions loaded:', baseQuestions.length);
+            } else {
+                console.error('❌ selectThirdCSEExamQuestions not found!');
+                showErrorModal('HTML/CSS/JS questions not loaded. Please refresh the page.');
+                return;
+            }
         } else {
             showErrorModal('Exam type not recognized. Please contact administrator.');
             return;
