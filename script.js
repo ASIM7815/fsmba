@@ -521,6 +521,17 @@ async function proceedToInstructions() {
                 showErrorModal('HTML/CSS/JS questions not loaded. Please refresh the page.');
                 return;
             }
+        } else if (validation.examType === 'FECE') {
+            // FECE: Use same C programming questions as FS1 CSE (100 total, 25 random)
+            console.log('💻 Loading C Programming questions for FECE');
+            if (typeof selectFS1CSEExamQuestions !== 'undefined') {
+                baseQuestions = selectFS1CSEExamQuestions();
+                console.log('✅ C Programming questions loaded:', baseQuestions.length);
+            } else {
+                console.error('❌ selectFS1CSEExamQuestions not found!');
+                showErrorModal('C Programming questions not loaded. Please refresh the page.');
+                return;
+            }
         } else {
             showErrorModal('Exam type not recognized. Please contact administrator.');
             return;

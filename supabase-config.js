@@ -193,6 +193,12 @@ function detectExamType(uniqueCode) {
             studentsTable: 'fs4it_students',
             resultsTable: 'fs4it_exam_results'
         };
+    } else if (uniqueCode === 'fece') {
+        return {
+            type: 'FECE',
+            studentsTable: 'fece_students',
+            resultsTable: 'fece_exam_results'
+        };
     }
     return null;
 }
@@ -214,7 +220,7 @@ async function validateCredentials(rollNumber, uniqueCode) {
         };
     }
 
-    // Map FFF and FS4 exams to their RPC functions
+    // Map FFF, FS4, and FECE exams to their RPC functions
     const rpcMap = {
         'FFECE': 'check_ffece_exam_eligibility',
         'FFFCSE': 'check_fffcse_exam_eligibility',
@@ -223,7 +229,8 @@ async function validateCredentials(rollNumber, uniqueCode) {
         'FFFIT': 'check_fffit_exam_eligibility',
         'FFFCIVIL': 'check_fffcivil_exam_eligibility',
         'FS4CSE': 'check_fs4cse_exam_eligibility',
-        'FS4IT': 'check_fs4it_exam_eligibility'
+        'FS4IT': 'check_fs4it_exam_eligibility',
+        'FECE': 'check_fece_exam_eligibility'
     };
 
     const rpcFunc = rpcMap[examType.type];
@@ -314,7 +321,7 @@ async function saveExamResults(rollNumber, correctAnswers, wrongAnswers, totalQu
     const violationDetected = shuffledQuestions.violationDetected || false;
     const violationType = shuffledQuestions.violation || null;
     
-    // Map FFF and FS4 exams to their RPC submit functions
+    // Map FFF, FS4, and FECE exams to their RPC submit functions
     const submitRpcMap = {
         'FFECE': 'submit_ffece_exam_result',
         'FFFCSE': 'submit_fffcse_exam_result',
@@ -323,7 +330,8 @@ async function saveExamResults(rollNumber, correctAnswers, wrongAnswers, totalQu
         'FFFIT': 'submit_fffit_exam_result',
         'FFFCIVIL': 'submit_fffcivil_exam_result',
         'FS4CSE': 'submit_fs4cse_exam_result',
-        'FS4IT': 'submit_fs4it_exam_result'
+        'FS4IT': 'submit_fs4it_exam_result',
+        'FECE': 'submit_fece_exam_result'
     };
 
     const submitRpc = submitRpcMap[examType.type];
