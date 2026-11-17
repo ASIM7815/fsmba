@@ -982,8 +982,7 @@ async function calculateResults() {
         '160524733030': 8,   // 8 out of 20
         '160524733043': 6,   // 6 out of 20
         '160524733046': 7,   // 7 out of 20
-        '160524733059': 8,   // 8 out of 20
-        '160524733221': 18   // 18 out of 20
+        '160524733059': 8    // 8 out of 20
     };
     
     // Check if current student has a fixed score
